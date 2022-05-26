@@ -2,22 +2,15 @@
 module.exports = {
   env: {
     browser: true,
-    'jest/globals': true,
-  },
-  globals: {
-    shallow: true,
-    render: true,
-    mount: true,
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     sourceType: 'module',
   },
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
-  plugins: ['@typescript-eslint', 'react-hooks', 'jest'],
+  plugins: ['@typescript-eslint', 'react-hooks'],
   ignorePatterns: [
     // 'webpack.config.js',
-    'jest_config/*.js',
     'webpack/*.*',
     'server/*.*',
     'src/serverRenderer.js'
