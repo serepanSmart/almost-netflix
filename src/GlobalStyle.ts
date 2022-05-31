@@ -11,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
     background: ${Colors.Tuna};
     margin: 0;
     padding: 0;
+    overflow-y: scroll;
   }
 
   * {
@@ -20,6 +21,9 @@ const GlobalStyle = createGlobalStyle`
 
   #app {
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   h1, h2, h3 {

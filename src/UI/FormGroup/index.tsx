@@ -43,7 +43,7 @@ const InnerCol = styled.div<IColumnProps>`
 const InnerGroup = styled.div<{ disabledSpacer?: boolean }>`
   display: flex;
   justify-content: space-between;
-  margin-bottom: ${({ disabledSpacer }) => !disabledSpacer && '15px'};
+  ${({ disabledSpacer }) => disabledSpacer && 'margin-right: 30px;'}; 
 `;
 
 export { FormGroup, InnerGroup, InnerCol };

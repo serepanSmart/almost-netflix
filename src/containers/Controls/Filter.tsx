@@ -16,7 +16,6 @@ const Filters: React.FC<IFiltersProps> = ({ filters, onClick }) => {
           key={filter.id}
           active={filter.active}
           onClick={onClick}
-          title={filter.title}
           value={filter.value}
         >
           {filter.value}

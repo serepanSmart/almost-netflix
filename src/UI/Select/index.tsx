@@ -39,7 +39,7 @@ export interface ISelect {
   selectedOption?: Option | Option[];
   isMulti?: boolean;
   allowSelectAll?: boolean;
-  value?: Option | Option[];
+  value: Option | Option[];
   closeMenuOnSelect?: boolean;
 }
 
@@ -64,6 +64,7 @@ const SelectComponent: React.FC<ISelect> = ({
   onChange,
   isMulti,
   closeMenuOnSelect,
+  value
 }) => (
   <Select
     styles={customStyles}
@@ -72,6 +73,7 @@ const SelectComponent: React.FC<ISelect> = ({
     onChange={onChange}
     closeMenuOnSelect={closeMenuOnSelect}
     isMulti={isMulti}
+    value={value}
   />
 );
 

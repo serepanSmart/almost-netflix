@@ -60,7 +60,7 @@ const MoviesList: React.FC = () => {
   };
 
   useEffect(() => {
-    setMovieState(movies);
+    setMovieState(movies.sort(sortByField(defaultOptions[0]?.value)));
   }, []);
 
   return (
@@ -75,6 +75,7 @@ const MoviesList: React.FC = () => {
             onChange={handleChangeOption}
             selectedOption={selectedOption}
             options={defaultOptions}
+            value={selectedOption}
           />
         </ControlsRow>
         {moviesState.length ? (

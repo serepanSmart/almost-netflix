@@ -3,7 +3,6 @@ import { FilterItem } from './styles';
 
 export interface ITab {
   active: boolean;
-  title: string;
   value: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
@@ -11,7 +10,7 @@ export interface ITab {
 }
 
 const TabButton: React.FC<PropsWithChildren<ITab>> =
-({ active, title, onClick, disabled }) => {
+({ active, onClick, disabled, value, id = value }) => {
   const handleClick = useCallback(
     (evt: React.MouseEvent<HTMLButtonElement>): void => {
       if (onClick) {
@@ -26,9 +25,11 @@ const TabButton: React.FC<PropsWithChildren<ITab>> =
       active={active}
       disabled={disabled}
       onClick={handleClick}
-      value={title}
-      type="button">
-      {title}
+      value={value}
+      type="button"
+      id={id}         // id here is value by default, but it can be changed
+    >
+      {value}
     </FilterItem>
   );
 };
