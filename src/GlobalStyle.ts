@@ -11,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
     background: ${Colors.Tuna};
     margin: 0;
     padding: 0;
+    overflow-y: scroll;
   }
 
   * {
