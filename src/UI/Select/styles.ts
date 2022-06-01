@@ -1,6 +1,17 @@
 import Colors from '../Theme/Colors';
 
 const customStyles = {
+  valueContainer: (provided) => ({
+    ...provided,
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: '1rem',
+  }),
+  placeholder: (provided) => ({
+    ...provided,
+    marginLeft: 0,
+    paddingLeft: 10,
+  }),
   option: (provided) => ({
     ...provided,
     color: Colors.White,
@@ -38,6 +49,8 @@ const customStyles = {
   }),
   singleValue: (provided) => ({
     ...provided,
+    marginLeft: 0,
+    paddingLeft: 10,
     color: Colors.White,
     background: 'transparent',
     width: 200,

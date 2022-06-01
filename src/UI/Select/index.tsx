@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import customStyles from './styles';
-import Select, { components, MultiValue } from 'react-select';
+import Select, { components, OnChangeValue } from 'react-select';
 import { CaretDownFill } from '@styled-icons/bootstrap';
 import Colors from '../Theme/Colors';
 import Checkbox from '../Checkbox';
@@ -34,7 +34,7 @@ const Option = (props): React.ReactElement => {
 export interface ISelect {
   options: Option[];
   onChange:
-  (value:  Option | MultiValue<Option>) => void;
+  (value: OnChangeValue<Option, false>) => void;
   placeholder?: string;
   selectedOption?: Option | Option[];
   isMulti?: boolean;
