@@ -1,11 +1,13 @@
-import React from 'react';
+/* eslint-disable max-len */
+import React, { ReactElement } from 'react';
 import styled from 'styled-components';
-import customStyles from './styles';
-import Select, { components, OnChangeValue } from 'react-select';
+import StyledSelect from './styles';
+import { components, GroupBase, OnChangeValue } from 'react-select';
 import { CaretDownFill } from '@styled-icons/bootstrap';
 import Colors from '../Theme/Colors';
 import Checkbox from '../Checkbox';
 import Label from '../Label';
+import { SelectComponents } from 'react-select/dist/declarations/src/components';
 
 export type Option = {
   value?: string;
@@ -13,21 +15,22 @@ export type Option = {
 };
 
 // eslint-disable-next-line no-redeclare
-const Option = (props): React.ReactElement => {
+const Option = (props): ReactElement => {
   return (
-    <>
-      <components.Option {...props}>
-        <Label
-          type="inline-checkbox"
-        >
-          <Checkbox
-            checked={props.isSelected}
-            onChange={() => null}
-          />
-          {props.label}
-        </Label>
-      </components.Option>
-    </>
+    <components.Option {...props}>
+      <Label type="inline-checkbox">
+        <Checkbox checked={props.isSelected} onChange={() => null} />
+        {props.label}
+      </Label>
+    </components.Option>
+  );
+};
+
+export const OptionWithoutCheckbox: unknown = ( props: any) => { //  https://react-select.com/upgrade, from v4 to v5, OptionTypeBase no replacement, there's no longer a base type for options
+  return (
+    <components.Option {...props}>
+      <Label type="inline-checkbox">{props.label}</Label>
+    </components.Option>
   );
 };
 
@@ -35,12 +38,14 @@ export interface ISelect {
   options: Option[];
   onChange:
   (value: OnChangeValue<Option, false>) => void;
+  value: Option | Option[];
   placeholder?: string;
   selectedOption?: Option | Option[];
   isMulti?: boolean;
-  allowSelectAll?: boolean;
-  value: Option | Option[];
   closeMenuOnSelect?: boolean;
+  components?: Partial<SelectComponents<typeof Option, boolean, GroupBase<typeof Option>>>;
+  menuIsOpen?: boolean;
+  inCard?: boolean;
 }
 
 const Arrow = styled(CaretDownFill)`
@@ -63,17 +68,22 @@ const SelectComponent: React.FC<ISelect> = ({
   options,
   onChange,
   isMulti,
-  closeMenuOnSelect,
-  value
+  closeMenuOnSelect = true,
+  value,
+  menuIsOpen,
+  inCard = false,
+  components = { DropdownIndicator, Option },
 }) => (
-  <Select
-    styles={customStyles}
-    components={{ DropdownIndicator, Option }}
+  <StyledSelect
+    components={components}
+    classNamePrefix="Select"
     options={options}
     onChange={onChange}
     closeMenuOnSelect={closeMenuOnSelect}
     isMulti={isMulti}
     value={value}
+    menuIsOpen={menuIsOpen}
+    inCard={inCard}
   />
 );
 
