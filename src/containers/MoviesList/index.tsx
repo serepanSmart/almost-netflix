@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { Container, Row } from 'styled-bootstrap-grid';
 import { ControlsRow } from '../Controls/styles';
@@ -19,58 +19,58 @@ const defaultOptions: Option[] = [
 ];
 
 const MoviesList: React.FC = () => {
+  // STATES FOR GET MOVIES, SORT AND FILTER
+  const [moviesList, setMoviesList] = useState<IMovie[]>([]);
   const [filtersState, setFiltersState] = useState<ITab[]>(filters);
-  const [moviesState, setMovieState] = useState<IMovie[]>([]);
   const [selectedOption, setSelectedOption] = useState(() => {
-    // to predict dynamical values in case we get them from somewhere
     const option = defaultOptions[0];
     if (!option) {
-      throw new Error('Empty options list');
+      throw new Error('empty options list');
     }
     return option;
   });
 
-  const renderMoviesByGenre =
-  (e: React.MouseEvent<HTMLButtonElement>): IMovie[] => {
-    const selectedMovies = movies.filter((movie) => {
-      return movie.genre === e.currentTarget.value;
+  // SORT HANDLER FOR SELECT
+  const handleChangeOption = useCallback((newValue: Option) => {
+    setSelectedOption(newValue as Option);
+    setMoviesList((prev) => {
+      prev.sort(sortByField(newValue.value));
+      return [...prev];
     });
-    if (e.currentTarget.value.trim() === 'All') {
+  }, []);
+
+  // GENRE FILTER
+  const renderMoviesByGenre = useCallback((e: ITab) => {
+    const selectedMovies = movies.filter((movie) => {
+      return movie.genre === e.value;
+    });
+    if (e.value === 'All') {
       return movies;
     }
     return selectedMovies;
-  };
+  }, []);
 
-  const handleSelectGenre = (e): void => {
-    setFiltersState((prev) => {
-      prev.find((tab) => tab.active).active = false;
-      prev.find((tab) => tab.value.trim() === e.target.value.trim())
-        .active = true;
-      return [...prev];
-    });
-    setMovieState(renderMoviesByGenre(e));
-  };
-
-  const handleChangeOption = (newValue: Option): void => {
-    setSelectedOption(newValue as Option);
-    const sortParameter = newValue.value;
-    setMovieState((prev) => {
-      return [...prev.sort(sortByField(sortParameter))];
-    });
-  };
+  const handleSelectGenre = useCallback(
+    (e: ITab) => {
+      setFiltersState((state) => {
+        state.find((tab) => tab.active).active = false;
+        state.find((tab) => tab.value === e.value).active = true;
+        return [...state];
+      });
+      setMoviesList(renderMoviesByGenre(e));
+    },
+    [renderMoviesByGenre],
+  );
 
   useEffect(() => {
-    setMovieState(movies.sort(sortByField(defaultOptions[0]?.value)));
+    setMoviesList(movies.sort(sortByField(defaultOptions[0]?.value)));
   }, []);
 
   return (
     <main>
       <Container>
         <ControlsRow>
-          <Filter
-            filters={filtersState}
-            onClick={handleSelectGenre}
-          />
+          <Filter filters={filtersState} onClick={handleSelectGenre} />
           <Sort
             onChange={handleChangeOption}
             selectedOption={selectedOption}
@@ -78,21 +78,22 @@ const MoviesList: React.FC = () => {
             value={selectedOption}
           />
         </ControlsRow>
-        {moviesState.length ? (
+        {moviesList.length ? (
           <h3>
-            <b>{moviesState.length}</b> movies found
+            <b>{moviesList.length}</b> movies found
           </h3>
         ) : (
           <h3>Sorry, no movies found, check later please</h3>
         )}
         <CenteredRow>
-          {moviesState.map((card) => (
+          {moviesList.map((card) => (
             <MovieCard
               src={card.src}
               key={card.id}
               title={card.title}
               genre={card.genre}
               year={card.year}
+              card={card}
             />
           ))}
         </CenteredRow>

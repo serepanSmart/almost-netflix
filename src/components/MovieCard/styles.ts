@@ -3,6 +3,7 @@ import { Col } from 'styled-bootstrap-grid';
 import { Colors } from '@/UI';
 
 export const Card = styled(Col)`
+position: relative;
 display: flex;
 flex-direction: column;
 max-width: 30%;
@@ -12,6 +13,15 @@ cursor: pointer;
     display: inline-block;
     margin-bottom: 10px;
   }
+`;
+
+export const Actions = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: absolute;
+  top: 10px;
+  right: 25px;
 `;
 
 export const Caption = styled.div`

@@ -11,10 +11,7 @@ import {
   ModalBody,
   ModalFooter
 } from './styles';
-
-type ChildrenProps = {
-  children?: ReactNode;
-};
+import { ChildrenProps } from '@/types';
 
 export type ModalFC<P = Record<string, unknown>> = React.FC<P> & {
   Body: React.FC<PropsWithChildren<ChildrenProps>>;

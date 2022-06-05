@@ -2,12 +2,10 @@ import styled, { css } from 'styled-components';
 import Colors from '../Theme/Colors';
 import { IButtonProps } from './index';
 
-interface IButtonContainer {
-  theme: Pick<IButtonProps, 'theme'>;
-}
+type IButtonContainer = Pick<IButtonProps, 'theme' | 'icon'>;
 
 const ButtonContainer = styled.button<IButtonContainer>`
-  display: inline-block;
+  display: flex;
   padding: ${({ theme }) => theme === 'light'
     ? '10px 20px'
     : '15px 60px'};
@@ -44,6 +42,26 @@ const ButtonContainer = styled.button<IButtonContainer>`
       color: ${Colors.Scarlet};
       &:hover {
         background: ${Colors.Scarlet};
+        color: ${Colors.White};
+      }
+  `};
+  ${({ icon }) => icon && css`
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      border-radius: 50%;
+      background: ${Colors.Tuna};
+      color: ${Colors.White};
+      border-color: transparent;
+      &:hover {
+        background: ${Colors.Grey};
+        color: ${Colors.White};
+      }
+      &:focus {
+        background: ${Colors.Tuna};
         color: ${Colors.White};
       }
   `};

@@ -1,16 +1,13 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { Container } from 'styled-bootstrap-grid';
 import ErrorImg from '@/assets/eddie.gif';
-
-interface Props {
-  children: ReactNode;
-}
+import { ChildrenProps } from '@/types';
 
 interface State {
   hasError: boolean;
 }
 
-class ErrorBoundary extends Component<Props, State> {
+class ErrorBoundary extends Component<ChildrenProps, State> {
   public state: State = {
     hasError: false
   };

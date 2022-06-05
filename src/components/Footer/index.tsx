@@ -1,16 +1,10 @@
 import React from 'react';
+import { ChildrenProps } from '@/types';
 import FooterContainer from './styles';
 
-type Props = {
-  children?: React.ReactNode;
-};
-
-const Footer: React.FC<Props> = ({
-  children
-}) => (
+const Footer: React.FC<ChildrenProps> = ({ children }) =>
   <FooterContainer>
     {children}
-  </FooterContainer>
-);
+  </FooterContainer>;
 
 export default Footer;
