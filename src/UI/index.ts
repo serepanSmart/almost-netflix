@@ -1,9 +1,14 @@
+import BarsLoader from './BarsLoader';
 import Button from './Button';
 import ButtonGroup from './ButtonGroup';
 import Input from './Input';
 import Loader from './Loader';
 import ModalWrapper from './Modal';
-import SelectContainer, { Option, ISelect } from './Select';
+import SelectContainer, {
+  Option,
+  ISelect,
+  OptionWithoutCheckbox
+} from './Select';
 import TabButton, { ITab } from './TabButton';
 import Colors from './Theme/Colors';
 import { FormGroup, InnerGroup, InnerCol } from './FormGroup';
@@ -14,11 +19,12 @@ import TextArea from './TextArea';
 import DatePicker from './DatePicker';
 
 export {
+  BarsLoader,
   Button,
   ButtonGroup,
   Input,
   Colors,
-  SelectContainer as Select,
+  SelectContainer as Select, OptionWithoutCheckbox,
   ModalWrapper as Modal,
   TabButton,
   Loader,

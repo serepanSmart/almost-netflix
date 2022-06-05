@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-undef
 module.exports = {
   env: {
     browser: true,
@@ -10,10 +9,11 @@ module.exports = {
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
   plugins: ['@typescript-eslint', 'react-hooks'],
   ignorePatterns: [
-    // 'webpack.config.js',
+    'webpack.config.js',
     'webpack/*.*',
     'server/*.*',
-    'src/serverRenderer.js'
+    'src/serverRenderer.js',
+    '.eslintrc*'
   ],
   rules: {
     'no-console': 'warn',

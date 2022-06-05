@@ -5,21 +5,21 @@ import Header from '@/containers/Header';
 import { Loader } from '@/UI';
 import Footer from '@/components/Footer';
 import { EXTERNAL_LINK } from '@/constants';
-import { MovieDetails, ConfirmDeleteMovie } from './components/Modals';
+import { MoviesContextProvider } from './context';
 
 const MoviesList = React.lazy(() => import('@/containers/MoviesList'));
 
 const App: React.FC = () => (
   <>
     <GlobalStyle />
-    <Header />
-    <MovieDetails />
-    <ConfirmDeleteMovie />
-    <ErrorBoundary>
-      <React.Suspense fallback={<Loader />}>
-        <MoviesList />
-      </React.Suspense>
-    </ErrorBoundary>
+    <MoviesContextProvider>
+      <Header />
+      <ErrorBoundary>
+        <React.Suspense fallback={<Loader />}>
+          <MoviesList />
+        </React.Suspense>
+      </ErrorBoundary>
+    </MoviesContextProvider>
     <Footer>
       <EXTERNAL_LINK />
     </Footer>

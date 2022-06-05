@@ -1,66 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useReducer } from 'react';
 import styled from 'styled-components';
 import { Container, Row } from 'styled-bootstrap-grid';
 import { ControlsRow } from '../Controls/styles';
-import { Filter, Sort, filters } from '../Controls';
+import { Filter, Sort } from '../Controls';
 import MovieCard from '@/components/MovieCard';
-import movies, { IMovie } from '@/service/movies';
+import { reducer, initialState, defaultOptions } from './reducer';
 import { ITab, Option } from '@/UI';
-import { sortByField } from '@/utils';
 
 const CenteredRow = styled(Row)`
   margin-left: 0;
   margin-right: 0;
 `;
 
-const defaultOptions: Option[] = [
-  { value: 'year', label: 'Release Date' },
-  { value: 'genre', label: 'Genre' },
-];
-
 const MoviesList: React.FC = () => {
-  const [filtersState, setFiltersState] = useState<ITab[]>(filters);
-  const [moviesState, setMovieState] = useState<IMovie[]>([]);
-  const [selectedOption, setSelectedOption] = useState(() => {
-    // to predict dynamical values in case we get them from somewhere
-    const option = defaultOptions[0];
-    if (!option) {
-      throw new Error('Empty options list');
-    }
-    return option;
-  });
 
-  const renderMoviesByGenre =
-  (e: React.MouseEvent<HTMLButtonElement>): IMovie[] => {
-    const selectedMovies = movies.filter((movie) => {
-      return movie.genre === e.currentTarget.value;
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  // SORT HANDLER FOR SELECT
+  const handleChangeOption = useCallback((
+    newValue: Option
+  ) => {
+    dispatch({
+      type: 'sort',
+      payload: newValue.value
     });
-    if (e.currentTarget.value.trim() === 'All') {
-      return movies;
-    }
-    return selectedMovies;
-  };
+  }, []);
 
-  const handleSelectGenre = (e): void => {
-    setFiltersState((prev) => {
-      prev.find((tab) => tab.active).active = false;
-      prev.find((tab) => tab.value.trim() === e.target.value.trim())
-        .active = true;
-      return [...prev];
+  // GENRE FILTER
+  const renderMoviesByGenre = useCallback((e: ITab) => {
+    dispatch({
+      type: 'genre',
+      payload: e.value
     });
-    setMovieState(renderMoviesByGenre(e));
-  };
-
-  const handleChangeOption = (newValue: Option): void => {
-    setSelectedOption(newValue as Option);
-    const sortParameter = newValue.value;
-    setMovieState((prev) => {
-      return [...prev.sort(sortByField(sortParameter))];
-    });
-  };
-
-  useEffect(() => {
-    setMovieState(movies.sort(sortByField(defaultOptions[0]?.value)));
   }, []);
 
   return (
@@ -68,31 +39,34 @@ const MoviesList: React.FC = () => {
       <Container>
         <ControlsRow>
           <Filter
-            filters={filtersState}
-            onClick={handleSelectGenre}
+            filters={state?.filters}
+            onClick={renderMoviesByGenre}
           />
           <Sort
             onChange={handleChangeOption}
-            selectedOption={selectedOption}
             options={defaultOptions}
-            value={selectedOption}
+            value={state.selectedOption}
+            selectedOption={state.selectedOption}
           />
         </ControlsRow>
-        {moviesState.length ? (
-          <h3>
-            <b>{moviesState.length}</b> movies found
-          </h3>
-        ) : (
-          <h3>Sorry, no movies found, check later please</h3>
-        )}
+        {
+          state?.movies?.length
+            ? (
+              <h3><b>{state?.movies?.length}</b> movies found</h3>
+            )
+            : (
+              <h3>Sorry, no movies found, check later please</h3>
+            )
+        }
         <CenteredRow>
-          {moviesState.map((card) => (
+          {state?.movies.map((card) => (
             <MovieCard
               src={card.src}
               key={card.id}
               title={card.title}
               genre={card.genre}
               year={card.year}
+              card={card}
             />
           ))}
         </CenteredRow>
