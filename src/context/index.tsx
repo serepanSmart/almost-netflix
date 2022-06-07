@@ -23,12 +23,12 @@ interface IContextProps {
   movie: IMovie;
   handleShowMovie: (data: React.SetStateAction<IMovie>) => void;
   handleSelectGenre: (e: ITab) => void;
-  resetCardInfo: () => void;
   filtersState: ITab[];
   selectedOption: Option | Option[];
   handleChangeOption: (value: OnChangeValue<Option, false>) => void;
   defaultOptions: Option[];
   isOpenedCard: boolean;
+  setOpenedCard: (e: React.SetStateAction<boolean>) => void;
 }
 
 const MoviesContext = createContext<IContextProps | null>(null);
@@ -39,7 +39,7 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> =
     // STATES FOR GET MOVIES, SORT AND FILTER
     const [moviesList, setMoviesList] = useState<IMovie[]>(movies);
     const [filtersState, setFiltersState] = useState<ITab[]>(filters);
-    const [movie, setOpenedMovie] = useState<IMovie>(null);
+    const [movie, setMovie] = useState<IMovie>(null);
     const [isOpenedCard, setOpenedCard] = useState(false);
     const [selectedOption, setSelectedOption] = useState(() => {
       const option = defaultOptions[0];
@@ -82,21 +82,17 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> =
     }, [renderMoviesByGenre]);
 
     // ON CLICK CARD
-    const resetCardInfo = useCallback(() => {
-      setOpenedCard(!isOpenedCard);
-    }, [isOpenedCard]);
-
     const handleShowMovie = useCallback(
       (data: IMovie) => {
-        !isOpenedCard && resetCardInfo();
-        setOpenedMovie(prev => {
-          if(prev && prev?.id === data?.id) {
-            resetCardInfo();
-            return prev;
+        setMovie(prev => {
+          if(isOpenedCard && prev?.id === data?.id) {  // if rely just on previously selected movie it causes issues when reopening previous card, so checking on isOpenedCard flag moved to the same condition
+            setOpenedCard(false);
+            return null;
           }
+          setOpenedCard(true);
           return data;
         });
-      }, [isOpenedCard, resetCardInfo]);
+      }, [isOpenedCard]);
 
     const value = useMemo<IContextProps>(() => ({
       moviesList,
@@ -109,7 +105,7 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> =
       defaultOptions,
       movie,
       isOpenedCard,
-      resetCardInfo
+      setOpenedCard,
     }),
     [
       moviesList,
@@ -120,7 +116,7 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> =
       handleChangeOption,
       movie,
       isOpenedCard,
-      resetCardInfo
+      setOpenedCard,
     ]);
 
     return (

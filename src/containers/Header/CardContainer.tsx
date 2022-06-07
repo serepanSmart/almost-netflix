@@ -12,14 +12,16 @@ import { EXTERNAL_LINK } from '@/constants';
 
 const CardContainer: React.FC = () => {
 
-  const { movie, resetCardInfo } = useMoviesContext();
+  const { movie, setOpenedCard } = useMoviesContext();
+
+  const resetCardInfoHandler = (): void => setOpenedCard(false);
 
   return (
     <>
       <CenteredRow reduceSpacer>
         <EXTERNAL_LINK />
         <Button
-          onClick={resetCardInfo}
+          onClick={resetCardInfoHandler}
           icon
         >
           <Search size={16} fill={Colors.Scarlet} />
