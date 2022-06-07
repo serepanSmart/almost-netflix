@@ -29,12 +29,16 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> =
   }, [isOpenedCard]);
 
   const handleShowMovie = useCallback(
-    (data: React.SetStateAction<IMovie>) => {
-      resetCardInfo();
-      setOpenedMovie(data);
-    },
-    [resetCardInfo],
-  );
+    (data: IMovie) => {
+      !isOpenedCard && resetCardInfo();
+      setOpenedMovie(prev => {
+        if(prev && prev?.id === data?.id) {
+          resetCardInfo();
+          return prev;
+        }
+        return data;
+      });
+    }, [isOpenedCard, resetCardInfo]);
 
   const value = useMemo<IContextProps>(
     () => ({
