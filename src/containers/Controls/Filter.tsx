@@ -4,7 +4,7 @@ import { TabButton, ITab } from '@/UI';
 
 interface IFiltersProps {
   filters: ITab[];
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  onClick: (e: ITab) => void;
 }
 
 const Filters: React.FC<IFiltersProps> = ({ filters, onClick }) => {
@@ -15,7 +15,7 @@ const Filters: React.FC<IFiltersProps> = ({ filters, onClick }) => {
         <TabButton
           key={filter.id}
           active={filter.active}
-          onClick={onClick}
+          onClick={() => onClick(filter)}
           value={filter.value}
         >
           {filter.value}
@@ -25,4 +25,4 @@ const Filters: React.FC<IFiltersProps> = ({ filters, onClick }) => {
   );
 };
 
-export default Filters;
+export default React.memo(Filters);
