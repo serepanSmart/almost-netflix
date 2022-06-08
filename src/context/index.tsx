@@ -21,6 +21,7 @@ const defaultOptions: Option[] = [
 interface IContextProps {
   moviesList: IMovie[];
   movie: IMovie;
+  setMovie: (data: IMovie) => void;
   handleShowMovie: (data: React.SetStateAction<IMovie>) => void;
   handleSelectGenre: (e: ITab) => void;
   filtersState: ITab[];
@@ -85,14 +86,14 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> =
     const handleShowMovie = useCallback(
       (data: IMovie) => {
         setMovie(prev => {
-          if(isOpenedCard && prev?.id === data?.id) {  // if rely just on previously selected movie it causes issues when reopening previous card, so checking on isOpenedCard flag moved to the same condition
+          if(prev?.id === data?.id) {
             setOpenedCard(false);
             return null;
           }
           setOpenedCard(true);
           return data;
         });
-      }, [isOpenedCard]);
+      }, []);
 
     const value = useMemo<IContextProps>(() => ({
       moviesList,
@@ -104,6 +105,7 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> =
       handleChangeOption,
       defaultOptions,
       movie,
+      setMovie,
       isOpenedCard,
       setOpenedCard,
     }),
@@ -115,6 +117,7 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> =
       selectedOption,
       handleChangeOption,
       movie,
+      setMovie,
       isOpenedCard,
       setOpenedCard,
     ]);
