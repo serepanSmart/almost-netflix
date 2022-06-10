@@ -1,3 +1,4 @@
+import Alert from './Alert';
 import BarsLoader from './BarsLoader';
 import Button from './Button';
 import ButtonGroup from './ButtonGroup';
@@ -19,6 +20,7 @@ import TextArea from './TextArea';
 import DatePicker from './DatePicker';
 
 export {
+  Alert,
   BarsLoader,
   Button,
   ButtonGroup,

@@ -13,7 +13,8 @@ module.exports = {
     'webpack/*.*',
     'server/*.*',
     'src/serverRenderer.js',
-    '.eslintrc*'
+    '.eslintrc*',
+    'src\UI\DatePicker\DatePickerStyles.ts',
   ],
   rules: {
     'no-console': 'warn',

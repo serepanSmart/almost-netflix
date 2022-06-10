@@ -1,62 +1,54 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Container, Row } from 'styled-bootstrap-grid';
-import { ControlsRow } from '../Controls/styles';
-import { Filter, Sort } from '../Controls';
-import MovieCard from '@/components/MovieCard';
-import { useMoviesContext } from '@/context';
-
-const CenteredRow = styled(Row)`
-  margin-left: 0;
-  margin-right: 0;
-`;
+import React, { useEffect } from 'react';
+import { Container } from 'styled-bootstrap-grid';
+import { Alert, Loader } from '@/UI';
+import { DATE_SORTING, useHandleMovie, defaultOptions } from './helpers';
+import Controls from '../Controls';
+import MoviesContainer from './MoviesContainer';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMovies } from '@/redux/actions';
+import { RootState } from '@/redux/rootReducer';
 
 const MoviesList: React.FC = () => {
 
   const {
-    moviesList,
-    handleSelectGenre,
-    filtersState,
+    loading,
+    alert,
+    filtersList,
     selectedOption,
     handleChangeOption,
-    defaultOptions,
-  } = useMoviesContext();
+    handleSelectGenre } = useHandleMovie();
+
+  const dispatch = useDispatch();
+
+  const moviesList = useSelector((state: RootState) => {
+    return state.movies.moviesList?.data;
+  });
+
+  // GET MOVIES BY DEFAULT
+  useEffect(() => {
+    dispatch(fetchMovies(DATE_SORTING));
+  }, [dispatch]);
 
   return (
-    <Container>
-      <ControlsRow>
-        <Filter
-          filters={filtersState}
-          onClick={handleSelectGenre}
+    <Container style={{ flexGrow: 1 }}>
+      <Controls
+        options={defaultOptions}
+        filters={filtersList}
+        value={selectedOption}
+        selectedOption={selectedOption}
+        onClick={handleSelectGenre}
+        onChange={handleChangeOption}
+      />
+      {alert && (
+        <Alert
+          type={alert.type}
+          title={alert.title}
+          message={alert.message}
         />
-        <Sort
-          onChange={handleChangeOption}
-          options={defaultOptions}
-          value={selectedOption}
-          selectedOption={selectedOption}
-        />
-      </ControlsRow>
+      )}
       {
-        moviesList.length
-          ? (
-            <h3><b>{moviesList.length}</b> movies found</h3>
-          )
-          : (
-            <h3>Sorry, no movies found, check later please</h3>
-          )
+        loading ? <Loader /> : <MoviesContainer list={moviesList} />
       }
-      <CenteredRow>
-        {moviesList.map((card) => (
-          <MovieCard
-            src={card.src}
-            key={card.id}
-            title={card.title}
-            genre={card.genre}
-            year={card.year}
-            card={card}
-          />
-        ))}
-      </CenteredRow>
     </Container>
   );
 };
