@@ -14,7 +14,10 @@ export const getDataReducer =
   (state: State = initialState, action: AnyAction): State => {
     switch (action.type) {
       case FETCH_MOVIES:
-        return { ...state, moviesList: action.payload };
+        return {
+          ...state,
+          moviesList: action.payload,
+        };
       default: return state;
     }
   };

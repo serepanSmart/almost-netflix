@@ -13,51 +13,43 @@ interface IContextProps {
   setMovie: (data: IMovie) => void;
   isOpenedCard: boolean;
   setOpenedCard: (e: React.SetStateAction<boolean>) => void;
+  handleShowMovie: (data: IMovie) => void;
 }
 
 const MoviesContext = createContext<IContextProps | null>(null);
 
-const MoviesContextProvider: FunctionComponent<ChildrenProps> =
-({ children }) => {
-
+const MoviesContextProvider: FunctionComponent<ChildrenProps> = ({
+  children,
+}) => {
   // ON CLICK CARD TO SHOW INFO IN THE BANNER
   const [movie, setMovie] = useState<IMovie>(null);
   const [isOpenedCard, setOpenedCard] = useState(false);
 
   // ON CLICK CARD
-  const handleShowMovie = useCallback(
-    (data: IMovie) => {
-      setMovie(prev => {
-        if(prev?.id === data?.id) {
-          setOpenedCard(false);
-          return null;
-        }
-        setOpenedCard(true);
-        return data;
-      });
-    }, []);
+  const handleShowMovie = useCallback((data: IMovie) => {
+    setMovie((prev) => {
+      if (prev?.id === data?.id) {
+        setOpenedCard(false);
+        return null;
+      }
+      setOpenedCard(true);
+      return data;
+    });
+  }, []);
 
   const value = React.useMemo<IContextProps>(
     () => ({
-      handleShowMovie,
       movie,
       setMovie,
       isOpenedCard,
       setOpenedCard,
+      handleShowMovie,
     }),
-    [
-      handleShowMovie,
-      movie,
-      setMovie,
-      isOpenedCard,
-      setOpenedCard,
-    ],
+    [movie, setMovie, isOpenedCard, setOpenedCard, handleShowMovie],
   );
 
   return (
-    <MoviesContext.Provider value={value}>
-      {children}
-    </MoviesContext.Provider>
+    <MoviesContext.Provider value={value}>{children}</MoviesContext.Provider>
   );
 };
 

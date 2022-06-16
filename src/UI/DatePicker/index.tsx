@@ -2,7 +2,7 @@ import React, {
   FunctionComponent,
   useCallback,
   useState,
-  useMemo
+  useMemo,
 } from 'react';
 import ReactDatePicker, { ReactDatePickerProps } from 'react-datepicker';
 import moment from 'moment';
@@ -53,50 +53,43 @@ const DatePicker: FunctionComponent<DatePickerProps> = ({
     [],
   );
 
-  const selectedDate = useMemo(
-    () => {
-      if (!value) return selected;
-      const date = moment(value, dateFormat);
-      if (date.isValid()) {
-        return getDateTime(value, dateFormat, startOfDay);
-      }
-      return selected;
-    },
-    [value, selected, dateFormat, startOfDay],
-  );
+  const selectedDate = useMemo(() => {
+    if (!value) return selected;
+    const date = moment(value, dateFormat);
+    if (date.isValid()) {
+      return getDateTime(value, dateFormat, startOfDay);
+    }
+    return selected;
+  }, [value, selected, dateFormat, startOfDay]);
 
-  const handleKeyDown =
-    (e: React.KeyboardEvent<HTMLDivElement>): void => {
-      if (onKeyDown) {
-        onKeyDown(e);
-      } else if (e.key === KEY_ENTER) {
-        setInputValue('');
-        if (!inputValue.length) {
-          onChange(null, e);
-        } else {
-          const date = moment(inputValue, timeFormat || KEY_DATE_FORMAT);
-          onChange(date.isValid() ? date.toDate() : selectedDate, e);
-        }
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>): void => {
+    if (onKeyDown) {
+      onKeyDown(e);
+    } else if (e.key === KEY_ENTER) {
+      setInputValue('');
+      if (!inputValue.length) {
+        onChange(null, e);
+      } else {
+        const date = moment(inputValue, timeFormat || KEY_DATE_FORMAT);
+        onChange(date.isValid() ? date.toDate() : selectedDate, e);
       }
-    };
+    }
+  };
 
-  const handleOnBlur =
-    (e: React.FocusEvent<HTMLInputElement>): void => {
-      const date = moment(e.target.value, timeFormat || KEY_DATE_FORMAT);
+  const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>): void => {
+    const date = moment(e.target.value, timeFormat || KEY_DATE_FORMAT);
 
-      if (date.isValid()) {
-        onBlur?.(e);
-        onChange(date.toDate(), e);
-      }
-    };
+    if (date.isValid()) {
+      onBlur?.(e);
+      onChange(date.toDate(), e);
+    }
+  };
 
   return (
     <div>
       <DatePickerStyles />
       <ReactDatePicker
-        customInput={
-          <Input />
-        }
+        customInput={<Input />}
         onChange={onChange}
         placeholderText={placeholder}
         value={moment.isMoment(value) ? value.format(DATE_FORMAT) : value}

@@ -26,11 +26,7 @@ const ButtonGroup: React.FC<IButtonGroup> = ({
       vertical,
     }}
   >
-    {vertical ? (
-      <VerticalContainer>
-        {children}
-      </VerticalContainer>
-    ) : children}
+    {vertical ? <VerticalContainer>{children}</VerticalContainer> : children}
   </Wrapper>
 );
 

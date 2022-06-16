@@ -4,15 +4,16 @@ import { CenteredRow } from './styles';
 import { EXTERNAL_LINK } from '@/constants';
 
 const BannerContainer: React.FC = () => {
-
   const [value, setInputValue] = useState<string>('');
-  const [loading] = useState<boolean>(false);  // will be implemented properly when API interaction is done, to replace button value with barsloader
+  const [loading] = useState<boolean>(false); // will be implemented properly when API interaction is done, to replace button value with barsloader
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>): string => {
       setInputValue(e.currentTarget.value);
       return value;
-    }, [value]);
+    },
+    [value],
+  );
 
   const setConcole = (): void => {
     console.log('Hello, check in console');

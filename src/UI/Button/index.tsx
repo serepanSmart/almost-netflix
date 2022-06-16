@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import ButtonContainer  from './styles';
+import ButtonContainer from './styles';
 
 export interface IButtonProps {
   value?: string;
@@ -19,12 +19,7 @@ const Button: React.FC<PropsWithChildren<IButtonProps>> = ({
   children,
 }) => {
   return (
-    <ButtonContainer
-      type={type}
-      onClick={onClick}
-      theme={theme}
-      icon={icon}
-    >
+    <ButtonContainer type={type} onClick={onClick} theme={theme} icon={icon}>
       {value}
       {children}
     </ButtonContainer>

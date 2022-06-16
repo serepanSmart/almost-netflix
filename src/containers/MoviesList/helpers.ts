@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { IMovie } from '@/service';
+import { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ITab, Option } from '@/UI';
 import { RootState } from '@/redux/rootReducer';
@@ -12,7 +13,19 @@ export const defaultOptions: Option[] = [
   { value: 'genre', label: 'Genre' },
 ];
 
-export const DATE_SORTING= `?sortBy=${defaultOptions[0]?.value}&sortOrder=asc`;
+const showLimit = 'limit=15';
+const defaultOrder = 'sortOrder=asc';
+const defaultOption = defaultOptions[0]?.value;
+
+export const DATE_SORTING =
+`?sortBy=${defaultOption}&sortOrder=asc&${showLimit}`;
+
+const urlConstructor =
+(select = defaultOption, genre = ''): string => {
+  return genre.length
+    ? `?sortBy=${select}&${defaultOrder}&filter=${genre}&${showLimit}`
+    : `?sortBy=${select}&${defaultOrder}&${showLimit}`;
+};
 
 interface IHandleMovies {
   filtersList: ITab[];
@@ -21,6 +34,7 @@ interface IHandleMovies {
   alert: IAlert;
   handleChangeOption: (newValue: OnChangeValue<Option, false>) => void;
   handleSelectGenre: (e: ITab) => void;
+  moviesList: IMovie[];
 }
 
 export const useHandleMovie = (): IHandleMovies => {
@@ -29,6 +43,10 @@ export const useHandleMovie = (): IHandleMovies => {
 
   const dispatch = useDispatch();
 
+  const moviesList = useSelector((state: RootState) => {
+    return state.movies.moviesList?.data;
+  });
+
   const loading = useSelector((state: RootState) => {
     return state.app.loading;
   });
@@ -36,6 +54,10 @@ export const useHandleMovie = (): IHandleMovies => {
   const alert = useSelector((state: RootState) => {
     return state.app.alert;
   });
+
+  const getMoviesByDefault = useCallback(() => {
+    dispatch(fetchMovies(urlConstructor()));
+  }, [dispatch]);
 
   // FUNCTION TO CHANGE ACTIVE TAB STATE
   const selectActiveTabHandler = (value: string): void =>
@@ -50,7 +72,7 @@ export const useHandleMovie = (): IHandleMovies => {
     (newValue: OnChangeValue<Option, false>) => {
       setSelectedOption(newValue as Option);
       const sortParameter = newValue.value;
-      dispatch(fetchMovies(`?sortBy=${sortParameter}&sortOrder=asc`));
+      dispatch(fetchMovies(urlConstructor(sortParameter)));
       selectActiveTabHandler('All');
     },
     [dispatch],
@@ -61,14 +83,20 @@ export const useHandleMovie = (): IHandleMovies => {
     (e: ITab) => {
       if (e.value === 'All') {
         selectActiveTabHandler('All');
-        dispatch(fetchMovies(DATE_SORTING));
+        getMoviesByDefault();
       } else {
         selectActiveTabHandler(e.value);
-        dispatch(fetchMovies(`?filter=${e.value}`));
+        dispatch(fetchMovies(urlConstructor(defaultOption, e.value)));
       }
+      setSelectedOption(defaultOptions[0]);
     },
-    [dispatch],
+    [dispatch, getMoviesByDefault],
   );
+
+  // GET MOVIES BY DEFAULT
+  useEffect(() => {
+    getMoviesByDefault();
+  }, [getMoviesByDefault]);
 
   return {
     filtersList,
@@ -77,5 +105,6 @@ export const useHandleMovie = (): IHandleMovies => {
     alert,
     handleChangeOption,
     handleSelectGenre,
+    moviesList,
   };
 };

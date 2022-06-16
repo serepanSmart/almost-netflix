@@ -8,7 +8,6 @@ interface IFiltersProps {
 }
 
 const Filters: React.FC<IFiltersProps> = ({ filters, onClick }) => {
-
   return (
     <FiltersList>
       {filters.map((filter) => (

@@ -6,17 +6,14 @@ import BannerContainer from './BannerContainer';
 import CardContainer from './CardContainer';
 
 const Header: React.FC = () => {
-
   const { isOpenedCard } = useMoviesContext();
 
   return (
     <Banner>
       <Container>
-        {
-          isOpenedCard ? <CardContainer /> : <BannerContainer />
-        }
+        {isOpenedCard ? <CardContainer /> : <BannerContainer />}
       </Container>
-    </Banner >
+    </Banner>
   );
 };
 

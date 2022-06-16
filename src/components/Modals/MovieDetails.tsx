@@ -21,7 +21,6 @@ const defaultOptions: Option[] = [
 ];
 
 const MovieDetails: React.FC = () => {
-
   // CHANGE OPEN MODAL HANDLERS
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
@@ -46,19 +45,26 @@ const MovieDetails: React.FC = () => {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value } = e.currentTarget;
       setInputValue({ name: value });
-    }, []);
+    },
+    [],
+  );
 
   const handleTextareaChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
       setTextValue(e.currentTarget.value);
-    }, []);
+    },
+    [],
+  );
 
   // CHANGE DATE HANDLER
   const [selectedDate, setDate] = useState<Date>();
 
-  const handleChangeDate = useCallback((newValue: Date) => {
-    setDate(newValue);
-  }, [setDate]);
+  const handleChangeDate = useCallback(
+    (newValue: Date) => {
+      setDate(newValue);
+    },
+    [setDate],
+  );
 
   return (
     <Modal
@@ -70,15 +76,8 @@ const MovieDetails: React.FC = () => {
       <form action="">
         <Modal.Body>
           <InnerGroup>
-            <InnerCol
-              spacer="right"
-              size={1}
-              direction="column"
-            >
-              <Label
-                htmlFor="movie-name"
-                type="col-checkbox"
-              >
+            <InnerCol spacer="right" size={1} direction="column">
+              <Label htmlFor="movie-name" type="col-checkbox">
                 Title
               </Label>
               <Input
@@ -86,16 +85,11 @@ const MovieDetails: React.FC = () => {
                 onChange={handleInputChange}
                 id="movie-name"
                 name="movie-name"
-                placeholder='Title'
+                placeholder="Title"
               />
             </InnerCol>
-            <InnerCol
-              direction="column"
-            >
-              <Label
-                htmlFor="movie-date"
-                type="col-checkbox"
-              >
+            <InnerCol direction="column">
+              <Label htmlFor="movie-date" type="col-checkbox">
                 Release Date
               </Label>
               <DatePicker
@@ -110,15 +104,8 @@ const MovieDetails: React.FC = () => {
             </InnerCol>
           </InnerGroup>
           <InnerGroup>
-            <InnerCol
-              spacer="right"
-              size={1}
-              direction="column"
-            >
-              <Label
-                htmlFor="movie-url"
-                type="col-checkbox"
-              >
+            <InnerCol spacer="right" size={1} direction="column">
+              <Label htmlFor="movie-url" type="col-checkbox">
                 Movie Url
               </Label>
               <Input
@@ -130,33 +117,20 @@ const MovieDetails: React.FC = () => {
                 type="url"
               />
             </InnerCol>
-            <InnerCol
-              direction="column"
-            >
-              <Label
-                type="col-checkbox"
-              >
-                Rating
-              </Label>
+            <InnerCol direction="column">
+              <Label type="col-checkbox">Rating</Label>
               <Input
                 value={value?.value}
                 onChange={handleInputChange}
                 id="movie-rating"
                 name="movie-rating"
-                placeholder='Set rating'
+                placeholder="Set rating"
               />
             </InnerCol>
           </InnerGroup>
           <InnerGroup>
-            <InnerCol
-              spacer="right"
-              size={1}
-              direction="column"
-            >
-              <Label
-                htmlFor="movie-name"
-                type="col-checkbox"
-              >
+            <InnerCol spacer="right" size={1} direction="column">
+              <Label htmlFor="movie-name" type="col-checkbox">
                 Genre
               </Label>
               <Select
@@ -168,13 +142,8 @@ const MovieDetails: React.FC = () => {
                 closeMenuOnSelect={false}
               />
             </InnerCol>
-            <InnerCol
-              direction="column"
-            >
-              <Label
-                htmlFor="movie-date"
-                type="col-checkbox"
-              >
+            <InnerCol direction="column">
+              <Label htmlFor="movie-date" type="col-checkbox">
                 Runtime
               </Label>
               <Input
@@ -182,24 +151,18 @@ const MovieDetails: React.FC = () => {
                 onChange={handleInputChange}
                 id="movie-runtime"
                 name="movie-runtime"
-                placeholder='Minutes'
+                placeholder="Minutes"
               />
             </InnerCol>
           </InnerGroup>
-          <InnerCol
-            direction="column"
-          >
-            <Label
-              type="col-checkbox"
-            >
-              OVERVIEW
-            </Label>
+          <InnerCol direction="column">
+            <Label type="col-checkbox">OVERVIEW</Label>
             <TextArea
               rows={2}
               value={textValue}
               onChange={handleTextareaChange}
               name="movie-overview"
-              placeholder='Movie description'
+              placeholder="Movie description"
             />
           </InnerCol>
         </Modal.Body>
@@ -211,11 +174,7 @@ const MovieDetails: React.FC = () => {
               onClick={handleClose}
               theme="reject"
             />
-            <Button
-              type="button"
-              value="Submit"
-              onClick={handleClose}
-            />
+            <Button type="button" value="Submit" onClick={handleClose} />
           </ButtonGroup>
         </Modal.Footer>
       </form>

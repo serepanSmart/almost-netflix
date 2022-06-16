@@ -13,7 +13,7 @@ interface IColumnProps {
 
 const InnerCol = styled.div<IColumnProps>`
   display: flex;
-  flex-direction:  ${({ direction }) => direction === 'column' && 'column'};
+  flex-direction: ${({ direction }) => direction === 'column' && 'column'};
   ${({ size }) => size === 1 && 'width: 100%;'};
   ${({ size }) => size === 2 && 'width: calc(100% / 2);'};
   ${({ size }) => size === 3 && 'width: calc(100% / 3);'};
@@ -27,7 +27,7 @@ const InnerCol = styled.div<IColumnProps>`
 const InnerGroup = styled.div<{ disabledSpacer?: boolean }>`
   display: flex;
   justify-content: space-between;
-  ${({ disabledSpacer }) => !disabledSpacer && 'margin-bottom: 15px;'}; 
+  ${({ disabledSpacer }) => !disabledSpacer && 'margin-bottom: 15px;'};
 `;
 
 export { FormGroup, InnerGroup, InnerCol };

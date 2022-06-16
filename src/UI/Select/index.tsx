@@ -26,7 +26,8 @@ const Option = (props): ReactElement => {
   );
 };
 
-export const OptionWithoutCheckbox: unknown = ( props: any) => { //  https://react-select.com/upgrade, from v4 to v5, OptionTypeBase no replacement, there's no longer a base type for options
+export const OptionWithoutCheckbox: unknown = (props: any) => {
+  //  https://react-select.com/upgrade, from v4 to v5, OptionTypeBase no replacement, there's no longer a base type for options
   return (
     <components.Option {...props}>
       <Label type="inline-checkbox">{props.label}</Label>
@@ -36,14 +37,15 @@ export const OptionWithoutCheckbox: unknown = ( props: any) => { //  https://rea
 
 export interface ISelect {
   options: Option[];
-  onChange:
-  (value: OnChangeValue<Option, false>) => void;
+  onChange: (value: OnChangeValue<Option, false>) => void;
   value: Option | Option[];
   placeholder?: string;
   selectedOption?: Option | Option[];
   isMulti?: boolean;
   closeMenuOnSelect?: boolean;
-  components?: Partial<SelectComponents<typeof Option, boolean, GroupBase<typeof Option>>>;
+  components?: Partial<
+  SelectComponents<typeof Option, boolean, GroupBase<typeof Option>>
+  >;
   menuIsOpen?: boolean;
   inCard?: boolean;
 }
