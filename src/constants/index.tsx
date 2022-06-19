@@ -5,3 +5,5 @@ export const EXTERNAL_LINK: React.FC = () => (
     <b>netflix</b>roulette
   </a>
 );
+
+export const URL = 'http://localhost:4000/movies';

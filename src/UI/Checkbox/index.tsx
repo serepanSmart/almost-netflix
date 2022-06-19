@@ -3,11 +3,15 @@ import {
   CheckboxContainer,
   Icon,
   HiddenCheckbox,
-  StyledCheckbox
+  StyledCheckbox,
 } from './styles';
 
 // eslint-disable-next-line max-len
-interface CheckboxProps extends Omit<React.HTMLProps<HTMLInputElement>, 'ref' | 'as' | 'type' | 'css'> {
+interface CheckboxProps
+  extends Omit<
+  React.HTMLProps<HTMLInputElement>,
+  'ref' | 'as' | 'type' | 'css'
+  > {
   square?: boolean;
 }
 
@@ -19,11 +23,16 @@ const Checkbox: React.FC<CheckboxProps> = ({
 }) => (
   <CheckboxContainer className={className}>
     <HiddenCheckbox
-      type="checkbox" checked={checked} disabled={disabled} {...props} />
+      type="checkbox"
+      checked={checked}
+      disabled={disabled}
+      {...props}
+    />
     <StyledCheckbox
       data-test-checked={checked}
       checked={checked || false}
-      disabled={disabled}>
+      disabled={disabled}
+    >
       <Icon viewBox="0 0 24 24">
         <polyline points="20 6 9 17 4 12" />
       </Icon>

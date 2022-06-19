@@ -4,6 +4,7 @@ import { useMoviesContext } from '@/context';
 import { Search } from '@styled-icons/bootstrap';
 import { CenteredRow, InfoWrapper, RatingWrapper, InfoImg } from './styles';
 import { EXTERNAL_LINK } from '@/constants';
+import { addDefaultSrc } from '@/utils';
 
 const CardContainer: React.FC = () => {
   const { movie, setMovie, setOpenedCard } = useMoviesContext();
@@ -22,16 +23,20 @@ const CardContainer: React.FC = () => {
         </Button>
       </CenteredRow>
       <CenteredRow reduceSpacer>
-        <InfoImg src={movie.src} alt={movie.title} />
+        <InfoImg
+          src={movie['poster_path']}
+          alt={movie.title}
+          onError={addDefaultSrc}
+        />
         <InfoWrapper>
           <h1>
             {movie.title}
-            <RatingWrapper>{movie.rating}</RatingWrapper>
+            <RatingWrapper>{movie['vote_average']}</RatingWrapper>
           </h1>
-          <p>{movie.genre}</p>
-          <h3>{movie.year}</h3>
+          <p>{movie.genres.join(', ')}</p>
+          <h3>{movie['release_date'].split('-')[0]}</h3>
           <h3>{movie.runtime}</h3>
-          <p>{movie.description}</p>
+          <p>{movie.overview}</p>
         </InfoWrapper>
       </CenteredRow>
     </>

@@ -1,82 +1,87 @@
 import React, { useState, useCallback } from 'react';
 import { Card, Caption, Actions } from './styles';
 import { Button, Select, Option, OptionWithoutCheckbox } from '@/UI';
-import { X, ThreeDotsVertical } from '@styled-icons/bootstrap';
-import { IMovie } from '@/service/movies';
-import { useMoviesContext } from '@/context';
+import { IMovie } from '@/service';
 import { OnChangeValue } from 'react-select';
-
-export interface ICard {
-  title: string;
-  genre: string;
-  src: string;
-  year: string | number;
-  onCLick?: (data: IMovie) => void;
-  card: IMovie;
-}
+import { X, ThreeDotsVertical } from '@styled-icons/bootstrap';
+import { addDefaultSrc } from '@/utils';
+import { useMoviesContext } from '@/context';
 
 const defaultOptions: Option[] = [
   { value: 'edit', label: 'edit' },
   { value: 'delete', label: 'delete' },
 ];
 
-const MovieCard: React.FC<ICard> = ({ title, genre, src, year, card }) => {
+const MovieCard: React.FC<IMovie> = ({
+  title,
+  genres,
+  posterPath,
+  releaseDate,
+  card,
+}) => {
   const [isActionsOpened, setActionsOpened] = useState<boolean>(false);
 
   const { handleShowMovie } = useMoviesContext();
+
+  const stopBubbling =
+  (e: React.MouseEvent<HTMLDivElement>): void => e.stopPropagation();
 
   const handleOpenDropdown = useCallback(() => {
     setActionsOpened(!isActionsOpened);
   }, [isActionsOpened]);
 
-  const [selectedOption, setSelectedOption] = useState(() => {
-    const option = defaultOptions[0];
-    if (!option) {
-      throw new Error('empty options list');
-    }
-    return option;
-  });
+  const [selectedOption, setSelectedOption] = useState(defaultOptions[0]);
 
-  const handleChangeOption = useCallback(
-    (newValue: OnChangeValue<Option, false>) => {
-      setSelectedOption(newValue as Option);
-      setActionsOpened(!isActionsOpened);
-    },
-    [isActionsOpened],
-  );
-
-  const preventPropagation =
-  (e: React.MouseEvent<HTMLDivElement>): void => e.stopPropagation();
+  const handleChangeOption = useCallback((
+    newValue: OnChangeValue<Option, false>
+  ) => {
+    setSelectedOption(newValue as Option);
+    setActionsOpened(!isActionsOpened);
+  }, [isActionsOpened]);
 
   const handleClick = (): void => handleShowMovie(card);
 
   return (
-    <Card md={4} onClick={handleClick}>
-      <img src={src} alt={title} />
-      <Actions onClick={preventPropagation}>
-        <Button icon onClick={handleOpenDropdown}>
+    <Card
+      md={4}
+      onClick={handleClick}
+    >
+      <img
+        src={posterPath}
+        alt={title}
+        onError={addDefaultSrc}
+      />
+      <Actions
+        onClick={stopBubbling}
+      >
+        <Button
+          icon
+          onClick={handleOpenDropdown}
+        >
           {isActionsOpened ? <X /> : <ThreeDotsVertical />}
         </Button>
-        {isActionsOpened && (
-          <Select
-            value={selectedOption}
-            onChange={handleChangeOption}
-            selectedOption={selectedOption}
-            options={defaultOptions}
-            closeMenuOnSelect
-            menuIsOpen
-            inCard
-            components={OptionWithoutCheckbox}
-          />
-        )}
+        {
+          isActionsOpened && (
+            <Select
+              value={selectedOption}
+              onChange={handleChangeOption}
+              selectedOption={selectedOption}
+              options={defaultOptions}
+              closeMenuOnSelect={true}
+              menuIsOpen={true}
+              inCard
+              components={OptionWithoutCheckbox}
+            />
+          )
+        }
       </Actions>
       <Caption>
         <h3>{title}</h3>
-        <span>{year}</span>
+        <span>{releaseDate}</span>
       </Caption>
-      <p>{genre}</p>
+      <p>{genres.join(', ')}</p>
     </Card>
   );
 };
 
-export default React.memo(MovieCard);
+export default MovieCard;

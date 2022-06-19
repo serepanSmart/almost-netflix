@@ -9,7 +9,7 @@ import {
   IconClose,
   ModalBodyCover,
   ModalBody,
-  ModalFooter
+  ModalFooter,
 } from './styles';
 import { ChildrenProps } from '@/types';
 
@@ -50,7 +50,6 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
   onRequestClose,
   ...props
 }) => {
-
   return (
     <StyledModal
       shouldCloseOnOverlayClick={shouldCloseOnOverlayClick}
@@ -66,24 +65,21 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
         <Title>{title && title}</Title>
         <Actions>
           {actions}
-          <CloseButton
-            onClick={onRequestClose}
-          >
+          <CloseButton onClick={onRequestClose}>
             <IconClose size={30} />
           </CloseButton>
         </Actions>
       </Header>
-      <ModalBodyCover>
-        {children}
-      </ModalBodyCover>
+      <ModalBodyCover>{children}</ModalBodyCover>
     </StyledModal>
   );
 };
 
 const ModalMemo = React.memo(Modal);
 
-const ModalWrapper: ModalFC<PropsWithChildren<ModalProps>> =
-  (props) => <ModalMemo {...props} />;
+const ModalWrapper: ModalFC<PropsWithChildren<ModalProps>> = (props) => (
+  <ModalMemo {...props} />
+);
 
 ModalWrapper.Body = ModalBody;
 ModalWrapper.Footer = ModalFooter;

@@ -13,6 +13,10 @@ cursor: pointer;
     display: inline-block;
     margin-bottom: 10px;
   }
+
+  img {
+    flex-grow: 1;
+  }
 `;
 
 export const Actions = styled.div`

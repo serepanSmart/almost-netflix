@@ -1,12 +1,7 @@
 import React, { useState, useCallback } from 'react';
-import {
-  Modal,
-  Button,
-  InnerGroup,
-} from '@/UI';
+import { Modal, Button, InnerGroup } from '@/UI';
 
 const ConfirmDeleteMovie: React.FC = () => {
-
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
   const handleClose = useCallback(() => {
@@ -26,11 +21,7 @@ const ConfirmDeleteMovie: React.FC = () => {
         </InnerGroup>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          type="button"
-          value="Confirm"
-          onClick={handleClose}
-        />
+        <Button type="button" value="Confirm" onClick={handleClose} />
       </Modal.Footer>
     </Modal>
   );

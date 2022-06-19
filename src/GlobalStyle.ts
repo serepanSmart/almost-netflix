@@ -5,6 +5,7 @@ const GlobalStyle = createGlobalStyle`
 
   html {
     font-size: 16px;
+    scroll-behavior: smooth;
   }
 
   body {
@@ -20,7 +21,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   #app {
-    min-height: 100vh;
+    min-height: calc(100vh - 17px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -37,7 +38,7 @@ const GlobalStyle = createGlobalStyle`
   img {
     display: block;
     max-width: 100%;
-    object-fit: cover;
+    object-fit: fill;
   }
   
   a {

@@ -30,21 +30,21 @@ export const Bar = styled.div<IBarsLoader>`
   margin: 0 2px;
   animation: ${loading} 1s ease-in-out infinite;
   &:nth-child(1) {
-  background-color: ${({ bgColor }) => bgColor};
-  animation-delay: 0;
-}
-&:nth-child(2) {
-  background-color: ${({ bgColor }) => bgColor};
-  animation-delay: 0.09s;
-}
-&:nth-child(3) {
-  background-color: ${({ bgColor }) => bgColor};
-  animation-delay: .18s;
-}
-&:nth-child(4) {
-  background-color: ${({ bgColor }) => bgColor};
-  animation-delay: .27s;
-}
+    background-color: ${({ bgColor }) => bgColor};
+    animation-delay: 0;
+  }
+  &:nth-child(2) {
+    background-color: ${({ bgColor }) => bgColor};
+    animation-delay: 0.09s;
+  }
+  &:nth-child(3) {
+    background-color: ${({ bgColor }) => bgColor};
+    animation-delay: 0.18s;
+  }
+  &:nth-child(4) {
+    background-color: ${({ bgColor }) => bgColor};
+    animation-delay: 0.27s;
+  }
 `;
 
 const BarsLoader: React.FC<IBarsLoader> = ({
