@@ -1,16 +1,17 @@
+import { Option } from '@/UI';
 export interface IMovie {
-  id: number | string;
+  id?: number | string;
   budget?: number;
   title: string;
-  genres: string[];
-  posterPath: string;
-  releaseDate: string;
+  genres: string[] | Option[];
+  'poster_path': string;
+  'release_date': string;
   onCLick?: () => void;
-  overview?: string;
+  overview: string;
   tagline?: string;
   revenue?: number;
-  runtime?: number;
-  rating?: number;
+  runtime: number;
+  'vote_average'?: number;
   voteCount?: number;
-  card: IMovie;
+  card?: IMovie;
 }

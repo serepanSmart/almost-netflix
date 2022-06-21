@@ -1,4 +1,4 @@
-import Alert from './Alert';
+import Alert, { IAlert } from './Alert';
 import BarsLoader from './BarsLoader';
 import Button from './Button';
 import ButtonGroup from './ButtonGroup';
@@ -36,4 +36,4 @@ export {
   TextArea,
   DatePicker,
 };
-export type { ISelect, Option, ITab };
+export type { ISelect, Option, ITab, IAlert };

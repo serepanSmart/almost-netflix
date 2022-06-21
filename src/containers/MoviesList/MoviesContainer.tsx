@@ -23,12 +23,14 @@ const MoviesContainer: React.FC<{ list: IMovie[] }> = ({ list }) => {
       <CenteredRow>
         {list.map((card) => (
           <MovieCard
-            id={card.id}
-            posterPath={card['poster_path']}
+            poster_path={card['poster_path']}
             key={card.id}
             title={card.title}
             genres={card.genres}
-            releaseDate={card['release_date'].split('-')[0]}
+            release_date={card['release_date']}
+            overview={card.overview}
+            runtime={card.runtime}
+            vote_average={card['vote_average']}
             card={card}
           />
         ))}

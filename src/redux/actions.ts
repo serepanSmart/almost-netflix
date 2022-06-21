@@ -21,8 +21,10 @@ export const hideLoader = (): AnyAction => {
   };
 };
 
-export const showAlert = (title: string, message: string, type = 'error') => {
-  return dispatch => {
+export const showAlert = (
+  title: string, message: string, type = 'error'
+): any => {
+  return (dispatch: any) => {
     dispatch({
       type: SHOW_ALERT,
       payload: {
@@ -34,7 +36,7 @@ export const showAlert = (title: string, message: string, type = 'error') => {
 
     setTimeout(() => {
       dispatch(hideAlert());
-    }, 3000);
+    }, 4000);
   };
 };
 

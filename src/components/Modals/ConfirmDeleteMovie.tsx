@@ -1,29 +1,27 @@
-import React, { useState, useCallback } from 'react';
-import { Modal, Button, InnerGroup } from '@/UI';
+import React, { useCallback } from 'react';
+import { Modal, Button, InnerGroup, ButtonGroup } from '@/UI';
+import { useModalContext } from '@/context';
 
 const ConfirmDeleteMovie: React.FC = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
-
-  const handleClose = useCallback(() => {
-    setIsOpen(!isOpen);
-  }, [isOpen]);
+  const { deleteMovieHandler, movie, onRequestClose } = useModalContext();
+  const handleCLose = useCallback(() => {
+    onRequestClose();
+    deleteMovieHandler(movie.id);
+  }, [deleteMovieHandler, movie.id, onRequestClose]);
 
   return (
-    <Modal
-      isOpen={isOpen}
-      shouldCloseOnOverlayClick
-      title="Delete Movie"
-      onRequestClose={handleClose}
-    >
+    <>
       <Modal.Body>
         <InnerGroup>
           <h3>Are you sure you want to delete this movie?</h3>
         </InnerGroup>
       </Modal.Body>
       <Modal.Footer>
-        <Button type="button" value="Confirm" onClick={handleClose} />
+        <ButtonGroup>
+          <Button type="button" value="Confirm" onClick={handleCLose} />
+        </ButtonGroup>
       </Modal.Footer>
-    </Modal>
+    </>
   );
 };
 
