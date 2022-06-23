@@ -23,9 +23,7 @@ const BannerContainer: React.FC = () => {
     [value],
   );
 
-  const addMovieModalHandler = useCallback(() => {
-    openModalHandler('Add Movie');
-  }, [openModalHandler]);
+  const addMovieModalHandler = (): void => openModalHandler('Add Movie');
 
   const setConcole = (): void => {
     console.log('Hello');

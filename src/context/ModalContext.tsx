@@ -4,7 +4,8 @@ import React, {
   FunctionComponent,
   useContext,
   useCallback,
-  FormEvent,
+  Dispatch,
+  SetStateAction,
 } from 'react';
 import { IMovie } from '@/service';
 import { URL } from '@/constants';
@@ -15,7 +16,7 @@ import { useMoviesContext } from './MoviesContext';
 
 interface IModalProps {
   onRequestClose?: () => void;
-  onSubmit?: (e: FormEvent<HTMLFormElement>, data: IMovie) => void;
+  onSubmit?: (data: IMovie) => void;
   deleteMovieHandler?: (id: number | string) => void;
   handleInputChange?: (e: React.ChangeEvent<HTMLInputElement>, ...args) => void;
   openModalHandler: (...args) => void;
@@ -23,6 +24,7 @@ interface IModalProps {
   isDeleting?: boolean;
   modalTitle: string;
   movie: IMovie;
+  setMovie: Dispatch<SetStateAction<IMovie>>;
   submitMethod: 'GET' | 'POST' | 'PUT' | 'DELETE';
 }
 
@@ -108,7 +110,7 @@ const ModalContextProvider: FunctionComponent<ChildrenProps> = ({
       if (type === 'number') {
         setMovieData({ [e.target.name]: +value });
       } else {
-        setMovieData({ [e.target.name]: value });
+        setMovieData({ [e.target.name]: value.trim() });
       }
     },
     [],
@@ -116,8 +118,7 @@ const ModalContextProvider: FunctionComponent<ChildrenProps> = ({
 
   // HANDLE FORM SUBMITTING
   const onSubmit = useCallback(
-    async (e: FormEvent<HTMLFormElement>, data: IMovie) => {
-      e.preventDefault();
+    async (data: IMovie) => {
       const res = await fetch(URL, {
         method: submitMethod,
         body: JSON.stringify(data),
@@ -130,7 +131,7 @@ const ModalContextProvider: FunctionComponent<ChildrenProps> = ({
           dispatch(showAlert('Congrats', 'Movie data is updated', 'success'));
         }, 350);
       } else {
-        dispatch(showAlert('Error', 'Fill all reqiured fields (*)'));
+        dispatch(showAlert('Error', 'Ooops, something went wrong'));
       }
     },
     [dispatch, onRequestClose, query, submitMethod],
@@ -143,6 +144,7 @@ const ModalContextProvider: FunctionComponent<ChildrenProps> = ({
       modalTitle,
       onRequestClose,
       movie,
+      setMovie,
       handleInputChange,
       deleteMovieHandler,
       isDeleting,

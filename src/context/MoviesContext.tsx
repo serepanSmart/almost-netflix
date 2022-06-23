@@ -48,8 +48,6 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> = ({
     });
   }, []);
 
-  console.log(query);
-
   const value = React.useMemo<IContextProps>(
     () => ({
       movie,

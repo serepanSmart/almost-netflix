@@ -14,6 +14,9 @@ const CardContainer: React.FC = () => {
     setMovie(null);
   };
 
+  const releaseDate = movie['release_date'];
+  const genres = movie.genres;
+
   return (
     <>
       <CenteredRow reduceSpacer>
@@ -24,19 +27,25 @@ const CardContainer: React.FC = () => {
       </CenteredRow>
       <CenteredRow reduceSpacer>
         <InfoImg
-          src={movie['poster_path']}
+          src={movie['poster_path'] ?? 'NO POSTER YET'}
           alt={movie.title}
           onError={addDefaultSrc}
         />
         <InfoWrapper>
           <h1>
             {movie.title}
-            <RatingWrapper>{movie['vote_average']}</RatingWrapper>
+            <RatingWrapper>
+              {movie['vote_average'] ?? 0}
+            </RatingWrapper>
           </h1>
-          <p>{movie.genres.join(', ')}</p>
-          <h3>{movie['release_date'].split('-')[0]}</h3>
-          <h3>{movie.runtime}</h3>
-          <p>{movie.overview}</p>
+          <p>{genres ? genres.join(', ') : 'GENRES LIST IS EMPTY'}</p>
+          <h3>
+            {releaseDate
+              ? releaseDate.split('-')[0]
+              : 'NO INFO ABOUT RELEASE DATE'}
+          </h3>
+          <h3>{movie?.runtime ?? 'NO INFO ABOUT DURATION YET'}</h3>
+          <p>{movie?.overview ?? 'NO INFO ABOUT THIS FILM YET'}</p>
         </InfoWrapper>
       </CenteredRow>
     </>

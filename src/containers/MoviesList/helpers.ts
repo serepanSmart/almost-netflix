@@ -77,20 +77,18 @@ export const useHandleMovie = (): IHandleMovies => {
     });
 
   // SORT HANDLER FOR SELECT
-  const handleChangeOption = useCallback(
-    (newValue: OnChangeValue<Option, false>) => {
+  const handleChangeOption =
+    (newValue: OnChangeValue<Option, false>): void => {
       setSelectedOption(newValue as Option);
       const sortParameter = newValue.value;
       dispatch(fetchMovies(urlConstructor(sortParameter, filterValue)));
       setQuery(urlConstructor(sortParameter, filterValue));
       setSortValue(sortParameter);
-    },
-    [dispatch, filterValue, setQuery, setSortValue],
-  );
+    };
 
   // GENRE FILTER TABS
-  const handleSelectGenre = useCallback(
-    (e: ITab) => {
+  const handleSelectGenre =
+    (e: ITab): void => {
       if (e.value === 'All') {
         selectActiveTabHandler('All');
         dispatch(fetchMovies(urlConstructor(sortValue)));
@@ -101,9 +99,7 @@ export const useHandleMovie = (): IHandleMovies => {
         setQuery(urlConstructor(sortValue, e.value));
         setFilterValue(e.value);
       }
-    },
-    [dispatch, setFilterValue, setQuery, sortValue],
-  );
+    };
 
   // GET MOVIES BY DEFAULT
   useEffect(() => {
