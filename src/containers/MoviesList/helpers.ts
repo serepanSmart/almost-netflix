@@ -66,7 +66,7 @@ export const useHandleMovie = (): IHandleMovies => {
     dispatch(fetchMovies(urlConstructor()));
     setSortValue(defaultOption);
     setQuery(urlConstructor());
-  }, [dispatch, setQuery, setSortValue]);
+  }, [setQuery, setSortValue]);
 
   // FUNCTION TO CHANGE ACTIVE TAB STATE
   const selectActiveTabHandler = (value: string): void =>

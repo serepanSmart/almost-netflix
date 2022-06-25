@@ -9,8 +9,8 @@ interface IValidateProps {
 
 const useValidateFields = (): IValidateProps => {
 
-  const validateInputValue = (value: string | number): string | number => {
-    let error: string | number | undefined;
+  const validateInputValue = (value: string | number): string | undefined => {
+    let error: string | undefined;
     if (!value) {
       error = 'This field is required';
     } else if (value < 1) {
@@ -19,7 +19,7 @@ const useValidateFields = (): IValidateProps => {
     return error;
   };
 
-  const validateUrlValue = (value: string): string => {
+  const validateUrlValue = (value: string): string | undefined => {
     let error: string | undefined;
     if (!value) {
       error = 'This field is required';
@@ -29,10 +29,10 @@ const useValidateFields = (): IValidateProps => {
     return error;
   };
 
-  const validateGenres = (value: Option[]): string => {
+  const validateGenres = (value: Option[]): string | undefined => {
     let error: string | undefined;
     if (!value?.length) {
-      error = 'This field is required';
+      error = 'Please select genres';
     }
     return error;
   };
