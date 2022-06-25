@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import store from '@/redux/store';
 import { Provider } from 'react-redux';
@@ -14,11 +12,9 @@ const root = ReactDOM.createRoot(document.getElementById('app'));
 // IT SERVES FOR DETECTING OLD REACT API BUGS
 
 const APP = (
-  <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </StrictMode>
+  <Provider store={store}>
+    <App />
+  </Provider>
 );
 
 root.render(APP);

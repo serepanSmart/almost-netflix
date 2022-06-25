@@ -27,6 +27,7 @@ const InnerCol = styled.div<IColumnProps>`
 const InnerGroup = styled.div<{ disabledSpacer?: boolean }>`
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   ${({ disabledSpacer }) => !disabledSpacer && 'margin-bottom: 15px;'};
 `;
 

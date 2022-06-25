@@ -1,4 +1,4 @@
-import React, { ReactNode, PropsWithChildren } from 'react';
+import React, { PropsWithChildren, ReactNode } from 'react';
 import ReactModal, { Props } from 'react-modal';
 import {
   StyledModal,
@@ -32,11 +32,11 @@ export interface ModalProps extends Props {
   height?: string;
   width?: string;
   actions?: ReactNode[];
-  children?: ChildrenProps;
+  children?: ReactNode;
   zIndex?: number;
   shouldCloseOnOverlayClick?: boolean;
-  isOpen: boolean;
-  onRequestClose: () => void;
+  isModalOpened: boolean;
+  onRequestClose?: () => void;
 }
 
 const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
@@ -46,7 +46,7 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
   width = '975px',
   actions = [],
   shouldCloseOnOverlayClick = true,
-  isOpen = true,
+  isModalOpened,
   onRequestClose,
   ...props
 }) => {
@@ -58,7 +58,7 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
         width,
       }}
       closeTimeoutMS={300}
-      isOpen={isOpen}
+      isOpen={isModalOpened}
       {...props}
     >
       <Header>

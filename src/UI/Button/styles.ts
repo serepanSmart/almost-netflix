@@ -5,7 +5,8 @@ import { IButtonProps } from './index';
 type IButtonContainer = Pick<IButtonProps, 'theme' | 'icon'>;
 
 const ButtonContainer = styled.button<IButtonContainer>`
-  display: flex;
+  display: inline-flex;
+  justify-content: center;
   padding: ${({ theme }) => theme === 'light'
     ? '10px 20px'
     : '15px 60px'};
@@ -24,7 +25,7 @@ const ButtonContainer = styled.button<IButtonContainer>`
   &:hover {
     background-color: ${Colors.ScarletHover};
   }
-  &:focus {
+  &:active {
     background-color: ${Colors.ScarletFocus};
     color: ${Colors.White};
   }
@@ -45,6 +46,7 @@ const ButtonContainer = styled.button<IButtonContainer>`
         color: ${Colors.White};
       }
   `};
+  ${({ icon }) => !icon && 'min-width: 210px'};
   ${({ icon }) => icon && css`
       width: 36px;
       height: 36px;
@@ -60,7 +62,7 @@ const ButtonContainer = styled.button<IButtonContainer>`
         background: ${Colors.Grey};
         color: ${Colors.White};
       }
-      &:focus {
+      &:active {
         background: ${Colors.Tuna};
         color: ${Colors.White};
       }

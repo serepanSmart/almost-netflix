@@ -1,22 +1,32 @@
 import React, { useState, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { Button, Input, BarsLoader } from '@/UI';
 import { CenteredRow } from './styles';
 import { EXTERNAL_LINK } from '@/constants';
+import { useModalContext } from '@/context';
+import { RootState } from '@/redux/rootReducer';
 
 const BannerContainer: React.FC = () => {
-  const [value, setInputValue] = useState<string>('');
-  const [loading] = useState<boolean>(false); // will be implemented properly when API interaction is done, to replace button value with barsloader
+  const [value, setValue] = useState<string>('');
 
-  const handleInputChange = useCallback(
+  const loading = useSelector((state: RootState) => {
+    return state.app.loading;
+  });
+
+  const { openModalHandler } = useModalContext();
+
+  const changeInputHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>): string => {
-      setInputValue(e.currentTarget.value);
+      setValue(e.currentTarget.value);
       return value;
     },
     [value],
   );
 
+  const addMovieModalHandler = (): void => openModalHandler('Add Movie');
+
   const setConcole = (): void => {
-    console.log('Hello, check in console');
+    console.log('Hello');
   };
 
   return (
@@ -26,7 +36,7 @@ const BannerContainer: React.FC = () => {
         <Button
           type="button"
           value="+ Add Movie"
-          onClick={setConcole}
+          onClick={addMovieModalHandler}
           theme="light"
         />
       </CenteredRow>
@@ -34,7 +44,7 @@ const BannerContainer: React.FC = () => {
       <CenteredRow>
         <Input
           value={value}
-          onChange={handleInputChange}
+          onChange={changeInputHandler}
           placeholder="What do you want to watch?"
           margin="right"
         />

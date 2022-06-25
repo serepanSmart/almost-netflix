@@ -1,37 +1,40 @@
+import { useMoviesContext } from '@/context';
 import { IMovie } from '@/service';
 import { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ITab, Option } from '@/UI';
 import { RootState } from '@/redux/rootReducer';
 import { fetchMovies } from '@/redux/actions';
 import { OnChangeValue } from 'react-select';
 import filters from '@/containers/Controls/filtersList';
-import { IAlert } from '@/UI/Alert';
+import { ITab, Option } from '@/UI';
 
 export const defaultOptions: Option[] = [
   { value: 'release_date', label: 'Release Date' },
-  { value: 'genre', label: 'Genre' },
+  { value: 'vote_average', label: 'Rating' },
 ];
 
 const showLimit = 'limit=15';
-const defaultOrder = 'sortOrder=asc';
-const defaultOption = defaultOptions[0]?.value;
+const defaultOrder = 'sortOrder=desc';
+const defaultOption = defaultOptions[0].value;
 
 export const DATE_SORTING =
-`?sortBy=${defaultOption}&sortOrder=asc&${showLimit}`;
+  `?sortBy=${defaultOption}&sortOrder=asc&${showLimit}`;
 
-const urlConstructor =
-(select = defaultOption, genre = ''): string => {
+export const urlConstructor = (
+  select = defaultOption,
+  genre = '',
+  order = defaultOrder,
+  limit = showLimit
+): string => {
   return genre.length
-    ? `?sortBy=${select}&${defaultOrder}&filter=${genre}&${showLimit}`
-    : `?sortBy=${select}&${defaultOrder}&${showLimit}`;
+    ? `?sortBy=${select}&${order}&filter=${genre}&${limit}`
+    : `?sortBy=${select}&${order}&${limit}`;
 };
 
 interface IHandleMovies {
   filtersList: ITab[];
   selectedOption: Option | Option[];
   loading: boolean;
-  alert: IAlert;
   handleChangeOption: (newValue: OnChangeValue<Option, false>) => void;
   handleSelectGenre: (e: ITab) => void;
   moviesList: IMovie[];
@@ -40,6 +43,14 @@ interface IHandleMovies {
 export const useHandleMovie = (): IHandleMovies => {
   const [filtersList, setFilterslist] = useState<ITab[]>(filters);
   const [selectedOption, setSelectedOption] = useState(defaultOptions[0]);
+
+  const {
+    setQuery,
+    sortValue,
+    setSortValue,
+    filterValue,
+    setFilterValue
+  } = useMoviesContext();
 
   const dispatch = useDispatch();
 
@@ -51,13 +62,11 @@ export const useHandleMovie = (): IHandleMovies => {
     return state.app.loading;
   });
 
-  const alert = useSelector((state: RootState) => {
-    return state.app.alert;
-  });
-
   const getMoviesByDefault = useCallback(() => {
     dispatch(fetchMovies(urlConstructor()));
-  }, [dispatch]);
+    setSortValue(defaultOption);
+    setQuery(urlConstructor());
+  }, [setQuery, setSortValue]);
 
   // FUNCTION TO CHANGE ACTIVE TAB STATE
   const selectActiveTabHandler = (value: string): void =>
@@ -68,30 +77,29 @@ export const useHandleMovie = (): IHandleMovies => {
     });
 
   // SORT HANDLER FOR SELECT
-  const handleChangeOption = useCallback(
-    (newValue: OnChangeValue<Option, false>) => {
+  const handleChangeOption =
+    (newValue: OnChangeValue<Option, false>): void => {
       setSelectedOption(newValue as Option);
       const sortParameter = newValue.value;
-      dispatch(fetchMovies(urlConstructor(sortParameter)));
-      selectActiveTabHandler('All');
-    },
-    [dispatch],
-  );
+      dispatch(fetchMovies(urlConstructor(sortParameter, filterValue)));
+      setQuery(urlConstructor(sortParameter, filterValue));
+      setSortValue(sortParameter);
+    };
 
   // GENRE FILTER TABS
-  const handleSelectGenre = useCallback(
-    (e: ITab) => {
+  const handleSelectGenre =
+    (e: ITab): void => {
       if (e.value === 'All') {
         selectActiveTabHandler('All');
-        getMoviesByDefault();
+        dispatch(fetchMovies(urlConstructor(sortValue)));
+        setFilterValue('');
       } else {
         selectActiveTabHandler(e.value);
-        dispatch(fetchMovies(urlConstructor(defaultOption, e.value)));
+        dispatch(fetchMovies(urlConstructor(sortValue, e.value)));
+        setQuery(urlConstructor(sortValue, e.value));
+        setFilterValue(e.value);
       }
-      setSelectedOption(defaultOptions[0]);
-    },
-    [dispatch, getMoviesByDefault],
-  );
+    };
 
   // GET MOVIES BY DEFAULT
   useEffect(() => {
@@ -102,7 +110,6 @@ export const useHandleMovie = (): IHandleMovies => {
     filtersList,
     selectedOption,
     loading,
-    alert,
     handleChangeOption,
     handleSelectGenre,
     moviesList,
