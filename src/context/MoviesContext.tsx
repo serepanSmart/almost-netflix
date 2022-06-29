@@ -1,5 +1,6 @@
 import React, {
   useState,
+  useMemo,
   createContext,
   FunctionComponent,
   useContext,
@@ -7,62 +8,89 @@ import React, {
   Dispatch,
   SetStateAction,
 } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ChildrenProps } from '@/types';
-import { IMovie } from '@/service';
+import {urlConstructor, defaultOption} from './utils';
 
 interface IContextProps {
-  movie: IMovie;
-  setMovie: (data: IMovie) => void;
-  isOpenedCard: boolean;
-  setOpenedCard: (e: React.SetStateAction<boolean>) => void;
-  handleShowMovie: (data: IMovie) => void;
+  handleInputChange: (e: React.SyntheticEvent<HTMLInputElement>) => void;
+  resetCardInfo: () => void;
+  searchInputValue: string;
   query: string;
+  search: string;
   setQuery: Dispatch<SetStateAction<string>>;
   sortValue: string;
   setSortValue: Dispatch<SetStateAction<string>>;
   filterValue: string;
   setFilterValue: Dispatch<SetStateAction<string>>;
+  setSearchInputValue: Dispatch<SetStateAction<string>>;
+  setYOffset: Dispatch<SetStateAction<number>>;
 }
 
 const MoviesContext = createContext<IContextProps | null>(null);
 
+const useQuery = (): URLSearchParams => {
+  const { search } = useLocation();
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+};
+
 const MoviesContextProvider: FunctionComponent<ChildrenProps> = ({
   children,
 }) => {
+  // ROUTER HOOKS
+  const filter = useQuery().get('filter');
+  const { search } = useLocation();
+  const navigate = useNavigate();
+
+  // STATES FOR GET MOVIES, SORT AND FILTER
+  const [searchInputValue, setSearchInputValue] = useState<string>('');
+  const [query, setQuery] = useState<string>(search || urlConstructor());
+  const [sortValue, setSortValue] = useState<string>(defaultOption);
+  const [filterValue, setFilterValue] = useState<string>(filter);
+  const [yOffset, setYOffset] = useState<number>(null);
+
+  const handleInputChange = useCallback(
+    (e: React.SyntheticEvent<HTMLInputElement>): void => {
+      setSearchInputValue(e.currentTarget.value);
+    },
+    [],
+  );
+
   // ON CLICK CARD TO SHOW INFO IN THE BANNER
-  const [movie, setMovie] = useState<IMovie>(null);
-  const [isOpenedCard, setOpenedCard] = useState(false);
-  const [query, setQuery] = useState<string>('');
-  const [sortValue, setSortValue] = useState<string>('');
-  const [filterValue, setFilterValue] = useState<string>('');
+  const resetCardInfo = useCallback(() => {
+    navigate(`search${query}`, { replace: true });
+    window.scrollTo(0, yOffset);
+  }, [navigate, query, yOffset]);
 
-  // ON CLICK CARD
-  const handleShowMovie = useCallback((data: IMovie) => {
-    setMovie((prev) => {
-      if (prev?.id === data?.id) {
-        setOpenedCard(false);
-        return null;
-      }
-      setOpenedCard(true);
-      return data;
-    });
-  }, []);
-
-  const value = React.useMemo<IContextProps>(
+  const value = useMemo<IContextProps>(
     () => ({
-      movie,
-      setMovie,
-      isOpenedCard,
-      setOpenedCard,
-      handleShowMovie,
+      resetCardInfo,
+      searchInputValue,
+      handleInputChange,
       query,
       setQuery,
       sortValue,
       setSortValue,
       filterValue,
       setFilterValue,
+      setSearchInputValue,
+      setYOffset,
+      search,
     }),
-    [movie, isOpenedCard, handleShowMovie, query, sortValue, filterValue],
+    [
+      resetCardInfo,
+      searchInputValue,
+      handleInputChange,
+      query,
+      setQuery,
+      sortValue,
+      setSortValue,
+      filterValue,
+      setFilterValue,
+      setSearchInputValue,
+      setYOffset,
+      search,
+    ],
   );
 
   return (
@@ -73,7 +101,9 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> = ({
 const useMoviesContext = (): IContextProps => {
   const value = useContext(MoviesContext);
   if (!value) {
-    throw new Error('USING VALUE OUTSIDE OF MOVIES CONTEXT PROVIDER');
+    throw new Error(
+      'USING MOVIES CONTEXT VALUES OUTSIDE OF MOVIES CONTEXT PROVIDER',
+    );
   }
   return value;
 };

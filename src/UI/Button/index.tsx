@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import ButtonContainer from './styles';
+import BarsLoader from '../BarsLoader';
 
 export interface IButtonProps {
   value?: string;
@@ -8,6 +9,7 @@ export interface IButtonProps {
   theme?: 'primary' | 'light' | 'reject';
   opacity?: boolean;
   icon?: boolean;
+  isLoading?: boolean;
 }
 
 const Button: React.FC<PropsWithChildren<IButtonProps>> = ({
@@ -16,12 +18,20 @@ const Button: React.FC<PropsWithChildren<IButtonProps>> = ({
   type,
   theme = 'primary',
   icon,
+  isLoading,
   children,
 }) => {
   return (
-    <ButtonContainer type={type} onClick={onClick} theme={theme} icon={icon}>
-      {value}
-      {children}
+    <ButtonContainer
+      type={type}
+      onClick={onClick}
+      theme={theme}
+      icon={icon}
+      isLoading={isLoading}
+    >
+      {isLoading && <BarsLoader />}
+      {!icon && !isLoading && value}
+      {icon && children}
     </ButtonContainer>
   );
 };

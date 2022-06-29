@@ -38,7 +38,7 @@ const MovieDataForm: React.FC = () => {
 
   // CHANGE SELECT GENRES HANDLERS
   const value = (): Option[] | null => {
-    if (!movie?.id && !movie?.genres.length) {
+    if (!movie && !movie?.genres.length) {
       return null;
     }
     return movie?.genres?.map((g) => ({
@@ -51,7 +51,7 @@ const MovieDataForm: React.FC = () => {
 
   const handleChangeOption = (newValue: Option[]): void => {
     setSelectValue(newValue);
-    if (movie?.id) {
+    if (movie) {
       setMovie((prev) => ({
         ...prev,
         genres: newValue.map((g) => g.value),
@@ -61,7 +61,7 @@ const MovieDataForm: React.FC = () => {
 
   // CHANGE DATE HANDLER
   const getMovieDate = (): string => {
-    if (movie?.id) {
+    if (movie) {
       return movie?.release_date;
     } else {
       return '';

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Row } from 'styled-bootstrap-grid';
 import { Colors } from '@/UI';
-import BannerIng from '@/assets/banner.png';
+import BannerImg from '@/assets/banner.png';
 
 const Banner = styled.div`
   position: relative;
@@ -9,7 +9,7 @@ const Banner = styled.div`
   margin-bottom: 30px;
   padding-top: 15px;
   padding-bottom: 15px;
-  background: url(${BannerIng});
+  background: url(${BannerImg});
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -29,12 +29,9 @@ const Banner = styled.div`
   }
 `;
 
-const CenteredRow = styled(Row) <{
-  reduceSpacer?: boolean;
-  justify?: boolean;
-}>`
+const CenteredRow = styled(Row) <{ reduceSpacer?: boolean }>`
   flex-wrap: nowrap;
-  justify-content: ${({ justify }) => justify ? 'flex-start' : 'space-between'};
+  justify-content: space-between;
   margin: 0 0 ${({ reduceSpacer }) => reduceSpacer ? '30px' : '75px'};
 `;
 
@@ -62,21 +59,12 @@ const RatingWrapper = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
   margin-left: 45px;
   width: 50px;
   height: 50px;
-  object-fit: initial;
   font-size: 22px;
   border-radius: 50%;
   border: 1px solid ${Colors.White};
 `;
 
-const SearchForm = styled.form`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export { Banner, CenteredRow, InfoWrapper, RatingWrapper, InfoImg, SearchForm };
+export { Banner, CenteredRow, InfoWrapper, RatingWrapper, InfoImg };

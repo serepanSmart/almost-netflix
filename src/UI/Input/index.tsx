@@ -30,6 +30,11 @@ const Input = styled.input<{ margin?: 'left' | 'right' }>`
       opacity: 0;
     }
   }
+  &[disabled] {
+    background-color: ${Colors.Tide};
+    color: ${Colors.White};
+    cursor: not-allowed;
+  }
 `;
 
 export default Input;

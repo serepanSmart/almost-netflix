@@ -1,4 +1,4 @@
-import React from 'react';
+import imgGif from '@/assets/imgGif.gif';
 
 export const EXTERNAL_LINK: React.FC = () => (
   <a href="https://www.netflix.com/" target="_blank">
@@ -8,8 +8,7 @@ export const EXTERNAL_LINK: React.FC = () => (
 
 export const URL = 'http://localhost:4000/movies';
 
-export const imgPlaceholder =
-  'https://sd.keepcalms.com/i/sorry-no-picture-available.png';
+export const imgLoading = `${imgGif}`;
 
 export const checkUrlRegExp =
   // eslint-disable-next-line max-len

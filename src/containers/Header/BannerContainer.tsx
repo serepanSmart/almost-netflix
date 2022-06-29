@@ -1,33 +1,49 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { Button, Input, BarsLoader } from '@/UI';
-import { CenteredRow } from './styles';
-import { EXTERNAL_LINK } from '@/constants';
-import { useModalContext } from '@/context';
+import { useNavigate } from 'react-router-dom';
+import { fetchMovies } from '@/redux/actions';
+import { useDispatch } from '@/redux/store';
 import { RootState } from '@/redux/rootReducer';
+import { Button, Input } from '@/UI';
+import { CenteredRow, SearchForm } from './styles';
+import { EXTERNAL_LINK } from '@/constants';
+import { useModalContext } from '@/context/ModalContext';
+import { useMoviesContext } from '@/context/MoviesContext';
 
 const BannerContainer: React.FC = () => {
-  const [value, setValue] = useState<string>('');
+  const { openModalHandler } = useModalContext();
+  const {
+    searchInputValue,
+    handleInputChange,
+    sortValue,
+  } = useMoviesContext();
 
   const loading = useSelector((state: RootState) => {
     return state.app.loading;
   });
 
-  const { openModalHandler } = useModalContext();
+  const navigate = useNavigate();
 
-  const changeInputHandler = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>): string => {
-      setValue(e.currentTarget.value);
-      return value;
+  const dispatch = useDispatch();
+
+  const URL = `?search=${searchInputValue}&searchBy=title&sortBy=
+  ${sortValue}&sortOrder=desc`;
+
+  const sendSearchRequest = React.useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      if (searchInputValue.trim()) {
+        dispatch(fetchMovies(URL));
+        navigate(URL);
+      }
+      return;
     },
-    [value],
+    [URL, dispatch, navigate, searchInputValue],
   );
 
-  const addMovieModalHandler = (): void => openModalHandler('Add Movie');
-
-  const setConcole = (): void => {
-    console.log('Hello');
-  };
+  const handleOpenModal = useCallback(() => {
+    openModalHandler('Add Movie');
+  }, [openModalHandler]);
 
   return (
     <>
@@ -36,25 +52,26 @@ const BannerContainer: React.FC = () => {
         <Button
           type="button"
           value="+ Add Movie"
-          onClick={addMovieModalHandler}
+          onClick={handleOpenModal}
           theme="light"
         />
       </CenteredRow>
       <h1>FIND YOUR MOVIE</h1>
       <CenteredRow>
-        <Input
-          value={value}
-          onChange={changeInputHandler}
-          placeholder="What do you want to watch?"
-          margin="right"
-        />
-        <Button
-          type="button"
-          value={loading ? null : 'Search'}
-          onClick={setConcole}
-        >
-          {loading && <BarsLoader />}
-        </Button>
+        <SearchForm action="" onSubmit={sendSearchRequest}>
+          <Input
+            value={searchInputValue}
+            onChange={handleInputChange}
+            placeholder="Type movie name here..."
+            margin="right"
+            name="search_movie"
+          />
+          <Button
+            value={loading ? null : 'Search'}
+            isLoading={loading}
+            onClick={sendSearchRequest}
+          />
+        </SearchForm>
       </CenteredRow>
     </>
   );

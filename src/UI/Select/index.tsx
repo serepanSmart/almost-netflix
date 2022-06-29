@@ -37,7 +37,7 @@ export const OptionWithoutCheckbox: unknown = (props: any) => {
 
 export interface ISelect {
   options: Option[];
-  onChange: (value: OnChangeValue<Option, false>) => void;
+  onChange: (value: OnChangeValue<Option | Option[], false>) => void;
   value: Option | Option[];
   placeholder?: string;
   selectedOption?: Option | Option[];

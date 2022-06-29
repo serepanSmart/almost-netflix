@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from 'react';
+import { X, ThreeDotsVertical } from '@styled-icons/bootstrap';
 import { Card, Caption, Actions } from './styles';
 import { Button, Select, Option, OptionWithoutCheckbox } from '@/UI';
 import { IMovie } from '@/service';
 import { OnChangeValue } from 'react-select';
-import { X, ThreeDotsVertical } from '@styled-icons/bootstrap';
 import { addDefaultSrc } from '@/utils';
-import { useMoviesContext, useModalContext } from '@/context';
+import { useModalContext } from '@/context/ModalContext';
+import { imgLoading } from '@/constants';
 
 const defaultOptions: Option[] = [
   { value: 'edit', label: 'edit' },
@@ -18,14 +19,17 @@ const MovieCard: React.FC<IMovie> = ({
   poster_path,
   release_date,
   card,
+  onCLick,
 }) => {
-
   const [isActionsOpened, setActionsOpened] = useState<boolean>(false);
-  const { openModalHandler } = useModalContext();
-  const { handleShowMovie  } = useMoviesContext();
+  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
-  const stopBubbling =
-  (e: React.MouseEvent<HTMLDivElement>): void => e.stopPropagation();
+  const { openModalHandler } = useModalContext();
+
+  const setImageToPlaceholder = (): void => setImageLoaded(true);
+
+  const stopBubbling = (e: React.MouseEvent<HTMLDivElement>): void =>
+    e.stopPropagation();
 
   const openDropdownHandler = useCallback(() => {
     setActionsOpened(!isActionsOpened);
@@ -44,11 +48,14 @@ const MovieCard: React.FC<IMovie> = ({
     [isActionsOpened, openModalHandler, card],
   );
 
-  const handleClick = (): void => handleShowMovie(card);
-
   return (
-    <Card md={4} onClick={handleClick}>
-      <img src={poster_path} alt={title} onError={addDefaultSrc} />
+    <Card md={4} onClick={onCLick}>
+      <img
+        src={imageLoaded ? poster_path : imgLoading}
+        alt={title}
+        onError={addDefaultSrc}
+        onLoad={setImageToPlaceholder}
+      />
       <Actions onClick={stopBubbling}>
         <Button icon onClick={openDropdownHandler}>
           {isActionsOpened ? <X /> : <ThreeDotsVertical />}

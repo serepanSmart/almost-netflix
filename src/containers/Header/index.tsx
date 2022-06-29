@@ -1,20 +1,19 @@
 import React from 'react';
-import { Banner } from './styles';
+import { Routes, Route } from 'react-router-dom';
 import { Container } from 'styled-bootstrap-grid';
-import { useMoviesContext } from '@/context';
+import { Banner } from './styles';
 import BannerContainer from './BannerContainer';
 import CardContainer from './CardContainer';
 
-const Header: React.FC = () => {
-  const { isOpenedCard } = useMoviesContext();
-
-  return (
-    <Banner>
-      <Container>
-        {isOpenedCard ? <CardContainer /> : <BannerContainer />}
-      </Container>
-    </Banner>
-  );
-};
+const Header: React.FC = () => (
+  <Banner>
+    <Container>
+      <Routes>
+        <Route path="/" element={<BannerContainer />} />
+        <Route path=':id' element={<CardContainer />} />
+      </Routes>
+    </Container>
+  </Banner>
+);
 
 export default Header;

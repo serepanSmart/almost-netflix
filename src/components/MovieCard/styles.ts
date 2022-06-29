@@ -16,6 +16,9 @@ cursor: pointer;
 
   img {
     flex-grow: 1;
+    max-height: 400px;
+    object-position: top;
+    object-fit: cover;
   }
 `;
 
