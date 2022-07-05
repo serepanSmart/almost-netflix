@@ -7,7 +7,7 @@ const RoutesComponent: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/search" />} />
-      <Route path="/search/*" element={<MainPage />} />
+      <Route path="/search/:searchQuery?" element={<MainPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

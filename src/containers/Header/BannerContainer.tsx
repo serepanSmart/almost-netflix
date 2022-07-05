@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { fetchMovies } from '@/redux/actions';
 import { useDispatch } from '@/redux/store';
 import { RootState } from '@/redux/rootReducer';
@@ -18,6 +18,8 @@ const BannerContainer: React.FC = () => {
     sortValue,
   } = useMoviesContext();
 
+  const { searchQuery } = useParams();
+
   const loading = useSelector((state: RootState) => {
     return state.app.loading;
   });
@@ -33,13 +35,18 @@ const BannerContainer: React.FC = () => {
     (e: React.FormEvent) => {
       e.preventDefault();
       if (searchInputValue.trim()) {
-        dispatch(fetchMovies(URL));
-        navigate(URL);
+        dispatch(fetchMovies(URL + `&searchQuery=${searchQuery}`));
+
+        navigate('/search/searchQuery' + URL);
       }
       return;
     },
     [URL, dispatch, navigate, searchInputValue],
   );
+
+  useEffect(() => {
+    dispatch(fetchMovies(URL + `&searchQuery=${searchQuery}`));
+  }, []);
 
   const handleOpenModal = useCallback(() => {
     openModalHandler('Add Movie');

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
+import {
+  // useParams,
+  useNavigate,
+} from 'react-router-dom';
 import { Search } from '@styled-icons/bootstrap';
 import { Button, Colors } from '@/UI';
 import { useMoviesContext } from '@/context';
@@ -12,11 +15,11 @@ import { useDispatch } from '@/redux/store';
 import { RootState } from '@/redux/rootReducer';
 import { CenteredRow, InfoWrapper, RatingWrapper, InfoImg } from './styles';
 
-const CardContainer: React.FC = () => {
+const CardContainer: React.FC<{ movieId: string }> = ({ movieId }) => {
   const { query, resetCardInfo } = useMoviesContext();
   const [movie, setMovie] = useState<IMovie>(null);
 
-  const { id } = useParams();
+  // const { id } = useParams();
 
   const dispatch = useDispatch();
 
@@ -28,7 +31,7 @@ const CardContainer: React.FC = () => {
 
   const fetchMovies = React.useCallback(async () => {
     try {
-      const response = await fetch(`${URL}/${id}`);
+      const response = await fetch(`${URL}/${movieId}`);
       if (!response.ok) {
         throw new Error('NO SUCH MOVIE');
       }
@@ -40,7 +43,7 @@ const CardContainer: React.FC = () => {
       dispatch(showAlert('Warning', e.message || 'NO SUCH MOVIE', 'warning'));
       navigate(`/${query}`);
     }
-  }, [dispatch, id, navigate, query]);
+  }, [dispatch, movieId, navigate, query]);
 
   useEffect(() => {
     fetchMovies();
