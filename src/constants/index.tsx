@@ -13,3 +13,5 @@ export const imgLoading = `${imgGif}`;
 export const checkUrlRegExp =
   // eslint-disable-next-line max-len
   '^(http://www.|https://www.|http://|https://)[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$';
+
+export const rootPath = '/search';

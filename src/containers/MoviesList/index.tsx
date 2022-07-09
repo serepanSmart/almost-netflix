@@ -9,9 +9,13 @@ import { defaultOptions } from '@/context/utils';
 import { useHandleMovie } from './utils';
 
 const MoviesList: React.FC = () => {
-
-  const { handleSelectGenre, filtersList, handleChangeOption, selectedOption } =
-    useHandleMovie();
+  const {
+    handleSelectGenre,
+    filtersList,
+    handleChangeOption,
+    selectedOption,
+    handleShowMovie,
+  } = useHandleMovie();
 
   const moviesList = useSelector((state: RootState) => {
     return state.movies.moviesList.data;
@@ -38,7 +42,11 @@ const MoviesList: React.FC = () => {
       {alert && (
         <Alert type={alert.type} title={alert.title} message={alert.message} />
       )}
-      {loading ? <Loader /> : <MoviesContainer list={moviesList} />}
+      {loading ? (
+        <Loader />
+      ) : (
+        <MoviesContainer list={moviesList} onClick={handleShowMovie} />
+      )}
     </Container>
   );
 };

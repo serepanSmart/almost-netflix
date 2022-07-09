@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { OnChangeValue } from 'react-select';
 import { useMoviesContext } from '@/context';
 import {
@@ -11,12 +11,14 @@ import filters from '@/containers/Controls/filtersList';
 import { ITab, Option } from '@/UI';
 import { useDispatch } from '@/redux/store';
 import { fetchMovies } from '@/redux/actions';
+import { rootPath } from '@/constants';
 
 interface IHandleMovies {
   filtersList: ITab[];
   selectedOption: Option | Option[];
   handleChangeOption: (newValue: OnChangeValue<Option, false>) => void;
   handleSelectGenre: (e: ITab) => void;
+  handleShowMovie: (card: number) => void;
 }
 
 export const useHandleMovie = (): IHandleMovies => {
@@ -25,12 +27,14 @@ export const useHandleMovie = (): IHandleMovies => {
 
   const {
     query,
-    search,
     setQuery,
     sortValue,
     setSortValue,
     filterValue,
     setFilterValue,
+    movieId,
+    setMovieId,
+    setYOffset,
     setSearchInputValue,
   } = useMoviesContext();
 
@@ -38,15 +42,27 @@ export const useHandleMovie = (): IHandleMovies => {
 
   const dispatch = useDispatch();
 
+  const { pathname } = useLocation();
+
+  const searchQuery = pathname.split(`${rootPath}/`)[1];
+
   const setUrlParams =
-    (sortParameter = defaultOption, filterValue = ''): void => {
-      dispatch(fetchMovies(urlConstructor(sortParameter, filterValue)));
-      setQuery(urlConstructor(sortParameter, filterValue));
+    (
+      sortParameter = defaultOption,
+      filterValue = '',
+      id = movieId,
+      search = ''
+    ): void => {
+      dispatch(
+        fetchMovies(urlConstructor(sortParameter, filterValue, id, search)));
+      setQuery(urlConstructor(sortParameter, filterValue, id, search));
       setSortValue(sortParameter);
       setFilterValue(filterValue);
-      navigate(urlConstructor(sortParameter, filterValue), { replace: true });
-      // eslint-disable-next-line max-len
-      setSearchInputValue(`Sorted by: ${sortParameter.replace('_', ' ').toUpperCase()}; ${filterValue ? `Genre: ${filterValue.toUpperCase()}` : ''}`);
+      setMovieId(id);
+      navigate(
+        urlConstructor(sortParameter, filterValue, id, search),
+        { replace: true }
+      );
     };
 
   // FUNCTION TO CHANGE ACTIVE TAB STATE
@@ -68,7 +84,7 @@ export const useHandleMovie = (): IHandleMovies => {
     (newValue: OnChangeValue<Option, false>): void => {
       setSelectedOption(newValue as Option);
       const sortParameter = newValue.value;
-      setUrlParams(sortParameter, filterValue);
+      setUrlParams(sortParameter, filterValue, undefined, searchQuery);
     };
 
   // GENRE FILTER TABS
@@ -76,20 +92,33 @@ export const useHandleMovie = (): IHandleMovies => {
     (e: ITab): void => {
       if (e.value === 'All') {
         selectActiveTabHandler('All');
-        setUrlParams(sortValue, '');
+        setUrlParams(sortValue, '', undefined, searchQuery);
       } else {
         selectActiveTabHandler(e.value);
-        setUrlParams(sortValue, e.value);
+        setUrlParams(sortValue, e.value, undefined, searchQuery);
       }
     };
 
+  const handleShowMovie = (id: number): void => {
+    setMovieId(id?.toString());
+    const setParams = urlConstructor(sortValue, filterValue, id.toString());
+    setQuery(setParams);
+    navigate(setParams);
+    setYOffset(window.scrollY);
+    window.scrollTo(0, 0);
+  };
+
   // GET MOVIES BY DEFAULT, INIT LOAD
   useEffect(() => {
-    dispatch(fetchMovies(search || query));
+    if (pathname.length > `${rootPath}/`.length) {
+      setUrlParams(sortValue, filterValue, undefined, searchQuery);
+      setSearchInputValue(searchQuery);
+    } else {
+      dispatch(fetchMovies(query));
+    }
     if (filterValue) {
       selectActiveTabHandler(filterValue);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {
@@ -97,5 +126,6 @@ export const useHandleMovie = (): IHandleMovies => {
     selectedOption,
     handleChangeOption,
     handleSelectGenre,
+    handleShowMovie,
   };
 };

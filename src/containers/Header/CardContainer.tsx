@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import {
-  // useParams,
-  useNavigate,
-} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Search } from '@styled-icons/bootstrap';
 import { Button, Colors } from '@/UI';
 import { useMoviesContext } from '@/context';
@@ -12,22 +8,15 @@ import { addDefaultSrc } from '@/utils';
 import { IMovie } from '@/service';
 import { showAlert } from '@/redux/actions';
 import { useDispatch } from '@/redux/store';
-import { RootState } from '@/redux/rootReducer';
 import { CenteredRow, InfoWrapper, RatingWrapper, InfoImg } from './styles';
 
 const CardContainer: React.FC<{ movieId: string }> = ({ movieId }) => {
   const { query, resetCardInfo } = useMoviesContext();
   const [movie, setMovie] = useState<IMovie>(null);
 
-  // const { id } = useParams();
-
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-
-  const moviesList = useSelector((state: RootState) => {
-    return state.movies.moviesList.data;
-  });
 
   const fetchMovies = React.useCallback(async () => {
     try {
@@ -37,8 +26,6 @@ const CardContainer: React.FC<{ movieId: string }> = ({ movieId }) => {
       }
       const json = await response.json();
       setMovie(json);
-      // navigate(`${id}${query}`);
-      navigate(`${query}`);
     } catch (e) {
       dispatch(showAlert('Warning', e.message || 'NO SUCH MOVIE', 'warning'));
       navigate(`/${query}`);
@@ -47,7 +34,7 @@ const CardContainer: React.FC<{ movieId: string }> = ({ movieId }) => {
 
   useEffect(() => {
     fetchMovies();
-  }, [fetchMovies, moviesList]);
+  }, [fetchMovies]);
 
   return (
     <>

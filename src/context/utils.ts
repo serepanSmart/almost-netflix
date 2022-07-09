@@ -5,17 +5,16 @@ export const defaultOptions: Option[] = [
   { value: 'vote_average', label: 'Rating' },
 ];
 
-const showLimit = 'limit=15';
 const defaultOrder = 'sortOrder=desc';
 export const defaultOption = defaultOptions[0].value;
 
 export const urlConstructor = (
   select = defaultOption,
   genre = '',
+  movieId = '',
+  search = '',
   order = defaultOrder,
-  limit = showLimit
 ): string => {
-  return genre
-    ? `?sortBy=${select}&${order}&filter=${genre}&${limit}`
-    : `?sortBy=${select}&${order}&${limit}`;
+  // eslint-disable-next-line max-len
+  return `?${search ? `search=${search}&searchBy=title&` : ''}${movieId ? `movie=${movieId}&` : ''}sortBy=${select}&${order}${genre ? `&filter=${genre}` : ''}`;
 };

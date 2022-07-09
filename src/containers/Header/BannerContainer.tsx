@@ -1,24 +1,18 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { fetchMovies } from '@/redux/actions';
 import { useDispatch } from '@/redux/store';
 import { RootState } from '@/redux/rootReducer';
 import { Button, Input } from '@/UI';
 import { CenteredRow, SearchForm } from './styles';
-import { EXTERNAL_LINK } from '@/constants';
+import { EXTERNAL_LINK, rootPath } from '@/constants';
 import { useModalContext } from '@/context/ModalContext';
 import { useMoviesContext } from '@/context/MoviesContext';
 
 const BannerContainer: React.FC = () => {
   const { openModalHandler } = useModalContext();
-  const {
-    searchInputValue,
-    handleInputChange,
-    sortValue,
-  } = useMoviesContext();
-
-  const { searchQuery } = useParams();
+  const { searchInputValue, handleInputChange, query } = useMoviesContext();
 
   const loading = useSelector((state: RootState) => {
     return state.app.loading;
@@ -28,25 +22,20 @@ const BannerContainer: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const URL = `?search=${searchInputValue}&searchBy=title&sortBy=
-  ${sortValue}&sortOrder=desc`;
+  const searchParams = `?search=${searchInputValue}&searchBy=title&`;
 
-  const sendSearchRequest = React.useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      if (searchInputValue.trim()) {
-        dispatch(fetchMovies(URL + `&searchQuery=${searchQuery}`));
+  const search = query.includes(searchParams)
+    ? query
+    : `?search=${searchInputValue}&searchBy=title&${query.replace('?', '')}`;
 
-        navigate('/search/searchQuery' + URL);
-      }
-      return;
-    },
-    [URL, dispatch, navigate, searchInputValue],
-  );
-
-  useEffect(() => {
-    dispatch(fetchMovies(URL + `&searchQuery=${searchQuery}`));
-  }, []);
+  const sendSearchRequest = (e: React.FormEvent): void => {
+    e.preventDefault();
+    if (searchInputValue.trim()) {
+      dispatch(fetchMovies(search));
+      navigate(`${rootPath}/${searchInputValue}${search}`, { replace: true });
+    }
+    return;
+  };
 
   const handleOpenModal = useCallback(() => {
     openModalHandler('Add Movie');
@@ -67,7 +56,7 @@ const BannerContainer: React.FC = () => {
       <CenteredRow>
         <SearchForm action="" onSubmit={sendSearchRequest}>
           <Input
-            value={searchInputValue}
+            value={searchInputValue || ''}
             onChange={handleInputChange}
             placeholder="Type movie name here..."
             margin="right"
