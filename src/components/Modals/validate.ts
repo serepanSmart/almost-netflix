@@ -9,11 +9,11 @@ interface IValidateProps {
 
 const useValidateFields = (): IValidateProps => {
 
-  const validateInputValue = (value: string | number): string | undefined => {
+  const validateInputValue = (value: string): string => {
     let error: string | undefined;
-    if (!value) {
+    if (!value || typeof value === 'string' && value.trim().length < 1) {
       error = 'This field is required';
-    } else if (value < 1) {
+    } else if (typeof value === 'number' && +value < 1) {
       error = 'Value should be bigger than 0';
     }
     return error;

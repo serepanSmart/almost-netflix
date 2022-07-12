@@ -9,8 +9,8 @@ import React, {
 } from 'react';
 import { IMovie } from '@/service';
 import { URL } from '@/constants';
-import { useDispatch } from 'react-redux';
-import { fetchMovies, showAlert } from '@/redux/actions';
+import { showAlert, fetchMovies } from '@/redux/actions';
+import { useDispatch } from '@/redux/store';
 import { ChildrenProps } from '@/types';
 import { useMoviesContext } from './MoviesContext';
 
@@ -45,14 +45,14 @@ const ModalContextProvider: FunctionComponent<ChildrenProps> = ({
 
   const { query } = useMoviesContext();
 
+  const dispatch = useDispatch();
+
   // JUST HANDLE OPEN-CLOSE MODAL
   const onRequestClose = useCallback(() => {
     setIsModalOpened(!isModalOpened);
   }, [isModalOpened]);
 
   // DELETE MOVIE, WITHOUT FORM SUBMIT HANDLER
-  const dispatch = useDispatch();
-
   const deleteMovieHandler = useCallback(
     async (id: number | string) => {
       return fetch(`${URL}/${id}`, {
@@ -110,7 +110,7 @@ const ModalContextProvider: FunctionComponent<ChildrenProps> = ({
       if (type === 'number') {
         setMovieData({ [e.target.name]: +value });
       } else {
-        setMovieData({ [e.target.name]: value.trim() });
+        setMovieData({ [e.target.name]: value });
       }
     },
     [],
@@ -125,7 +125,7 @@ const ModalContextProvider: FunctionComponent<ChildrenProps> = ({
         headers: headers,
       });
       if (res.ok) {
-        dispatch(fetchMovies(query));           // WITH THIS SAVED PARAM WE CAN SEE THE SAME SCREEN AFTER NEW FETCHING
+        dispatch(fetchMovies(query)); // WITH THIS SAVED PARAM WE CAN SEE THE SAME SCREEN AFTER NEW FETCHING
         onRequestClose();
         setTimeout(() => {
           dispatch(showAlert('Congrats', 'Movie data is updated', 'success'));

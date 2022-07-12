@@ -9,7 +9,10 @@ export const CenteredRow = styled(Row)`
   margin-right: 0;
 `;
 
-const MoviesContainer: React.FC<{ list: IMovie[] }> = ({ list }) => {
+const MoviesContainer: React.FC<{
+  list: IMovie[];
+  onClick: (id: number) => void;
+}> = ({ list, onClick }) => {
 
   if (!list.length) {
     return <h3>Sorry, no movies found, check later please</h3>;
@@ -32,6 +35,7 @@ const MoviesContainer: React.FC<{ list: IMovie[] }> = ({ list }) => {
             runtime={card.runtime}
             vote_average={card['vote_average']}
             card={card}
+            onCLick={() => onClick(Number(card.id))}
           />
         ))}
       </CenteredRow>

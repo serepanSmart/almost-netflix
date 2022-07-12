@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import Colors from '../Theme/Colors';
 import { IButtonProps } from './index';
 
-type IButtonContainer = Pick<IButtonProps, 'theme' | 'icon'>;
+type IButtonContainer = Pick<IButtonProps, 'theme' | 'icon' | 'isLoading'>;
 
 const ButtonContainer = styled.button<IButtonContainer>`
   display: inline-flex;

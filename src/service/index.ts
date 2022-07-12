@@ -1,6 +1,6 @@
 import { Option } from '@/UI';
 export interface IMovie {
-  id?: number | string;
+  id?: number;
   budget?: number;
   title: string;
   genres: string[] | Option[];
