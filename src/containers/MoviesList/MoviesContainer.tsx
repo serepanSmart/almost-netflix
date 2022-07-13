@@ -13,7 +13,6 @@ const MoviesContainer: React.FC<{
   list: IMovie[];
   onClick: (id: number) => void;
 }> = ({ list, onClick }) => {
-
   if (!list.length) {
     return <h3>Sorry, no movies found, check later please</h3>;
   }
@@ -26,14 +25,7 @@ const MoviesContainer: React.FC<{
       <CenteredRow>
         {list.map((card) => (
           <MovieCard
-            poster_path={card['poster_path']}
             key={card.id}
-            title={card.title}
-            genres={card.genres}
-            release_date={card['release_date']}
-            overview={card.overview}
-            runtime={card.runtime}
-            vote_average={card['vote_average']}
             card={card}
             onCLick={() => onClick(Number(card.id))}
           />

@@ -13,11 +13,7 @@ const defaultOptions: Option[] = [
   { value: 'delete', label: 'delete' },
 ];
 
-const MovieCard: React.FC<IMovie> = ({
-  title,
-  genres,
-  poster_path,
-  release_date,
+const MovieCard: React.FC<Partial<IMovie>> = ({
   card,
   onCLick,
 }) => {
@@ -51,8 +47,8 @@ const MovieCard: React.FC<IMovie> = ({
   return (
     <Card md={4} onClick={onCLick}>
       <img
-        src={imageLoaded ? poster_path : imgLoading}
-        alt={title}
+        src={imageLoaded ? card.poster_path : imgLoading}
+        alt={card.title}
         onError={addDefaultSrc}
         onLoad={setImageToPlaceholder}
       />
@@ -73,12 +69,12 @@ const MovieCard: React.FC<IMovie> = ({
         )}
       </Actions>
       <Caption>
-        <h3>{title}</h3>
+        <h3>{card.title}</h3>
         <span>
-          {release_date?.split('-')[0] || 'No info about release date yet'}
+          {card.release_date?.split('-')[0] || 'No info about release date yet'}
         </span>
       </Caption>
-      <p>{genres?.join(', ') || 'Genres list will be set soon'}</p>
+      <p>{card.genres?.join(', ') || 'Genres list will be set soon'}</p>
     </Card>
   );
 };

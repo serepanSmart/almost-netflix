@@ -10,6 +10,7 @@ export interface IButtonProps {
   opacity?: boolean;
   icon?: boolean;
   isLoading?: boolean;
+  dataTestId?: string;
 }
 
 const Button: React.FC<PropsWithChildren<IButtonProps>> = ({
@@ -19,6 +20,7 @@ const Button: React.FC<PropsWithChildren<IButtonProps>> = ({
   theme = 'primary',
   icon,
   isLoading,
+  dataTestId,
   children,
 }) => {
   return (
@@ -28,6 +30,8 @@ const Button: React.FC<PropsWithChildren<IButtonProps>> = ({
       theme={theme}
       icon={icon}
       isLoading={isLoading}
+      value={value}
+      data-testid={dataTestId}
     >
       {isLoading && <BarsLoader />}
       {!icon && !isLoading && value}

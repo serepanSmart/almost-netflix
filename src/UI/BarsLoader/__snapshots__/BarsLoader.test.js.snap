@@ -1,0 +1,180 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BarsLoader component should match snapshot with custom color 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": .c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c1 {
+  display: inline-block;
+  width: 4px;
+  height: 18px;
+  border-radius: 4px;
+  margin: 0 2px;
+  -webkit-animation: ffhpKE 1s ease-in-out infinite;
+  animation: ffhpKE 1s ease-in-out infinite;
+}
+
+.c1:nth-child(1) {
+  background-color: red;
+  -webkit-animation-delay: 0;
+  animation-delay: 0;
+}
+
+.c1:nth-child(2) {
+  background-color: red;
+  -webkit-animation-delay: 0.09s;
+  animation-delay: 0.09s;
+}
+
+.c1:nth-child(3) {
+  background-color: red;
+  -webkit-animation-delay: 0.18s;
+  animation-delay: 0.18s;
+}
+
+.c1:nth-child(4) {
+  background-color: red;
+  -webkit-animation-delay: 0.27s;
+  animation-delay: 0.27s;
+}
+
+<body>
+    <div>
+      <div
+        class="c0"
+        data-testid="bars-loader"
+      >
+        <div
+          class="c1"
+        />
+        <div
+          class="c1"
+        />
+        <div
+          class="c1"
+        />
+        <div
+          class="c1"
+        />
+      </div>
+    </div>
+  </body>,
+  "container": .c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c1 {
+  display: inline-block;
+  width: 4px;
+  height: 18px;
+  border-radius: 4px;
+  margin: 0 2px;
+  -webkit-animation: ffhpKE 1s ease-in-out infinite;
+  animation: ffhpKE 1s ease-in-out infinite;
+}
+
+.c1:nth-child(1) {
+  background-color: red;
+  -webkit-animation-delay: 0;
+  animation-delay: 0;
+}
+
+.c1:nth-child(2) {
+  background-color: red;
+  -webkit-animation-delay: 0.09s;
+  animation-delay: 0.09s;
+}
+
+.c1:nth-child(3) {
+  background-color: red;
+  -webkit-animation-delay: 0.18s;
+  animation-delay: 0.18s;
+}
+
+.c1:nth-child(4) {
+  background-color: red;
+  -webkit-animation-delay: 0.27s;
+  animation-delay: 0.27s;
+}
+
+<div>
+    <div
+      class="c0"
+      data-testid="bars-loader"
+    >
+      <div
+        class="c1"
+      />
+      <div
+        class="c1"
+      />
+      <div
+        class="c1"
+      />
+      <div
+        class="c1"
+      />
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

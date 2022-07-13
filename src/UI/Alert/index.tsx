@@ -25,6 +25,7 @@ const Alert: React.FC<IAlert> = ({
   ...other
 }) => (
   <Wrapper
+    role="alert"
     styled={{
       type,
       onClose,

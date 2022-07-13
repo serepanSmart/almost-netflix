@@ -4,6 +4,7 @@ import Colors from '../Theme/Colors';
 
 export interface IBarsLoader {
   bgColor?: string;
+  dataTestId?: string;
 }
 
 const Wrapper = styled.div`
@@ -49,9 +50,9 @@ export const Bar = styled.div<IBarsLoader>`
 
 const BarsLoader: React.FC<IBarsLoader> = ({
   bgColor = Colors.White,
-  ...other
+  dataTestId = 'bars-loader'
 }) => (
-  <Wrapper {...other}>
+  <Wrapper data-testid={dataTestId}>
     <Bar bgColor={bgColor} />
     <Bar bgColor={bgColor} />
     <Bar bgColor={bgColor} />

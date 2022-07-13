@@ -31,7 +31,6 @@ export interface ModalProps extends Props {
   title?: string | ReactNode;
   height?: string;
   width?: string;
-  actions?: ReactNode[];
   children?: ReactNode;
   zIndex?: number;
   shouldCloseOnOverlayClick?: boolean;
@@ -44,7 +43,6 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
   title,
   height = 'auto',
   width = '975px',
-  actions = [],
   shouldCloseOnOverlayClick = true,
   isModalOpened,
   onRequestClose,
@@ -64,8 +62,7 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
       <Header>
         <Title>{title && title}</Title>
         <Actions>
-          {actions}
-          <CloseButton onClick={onRequestClose}>
+          <CloseButton onClick={onRequestClose} data-testid="close-button">
             <IconClose size={30} />
           </CloseButton>
         </Actions>
