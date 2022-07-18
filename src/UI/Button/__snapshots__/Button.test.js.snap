@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button component Button render tests should match snapshot with default props 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": .c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 15px 60px;
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 1;
+  background: #f65261;
+  border: 1px solid #f65261;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  -webkit-transition: 200ms;
+  transition: 200ms;
+  background: #232323;
+  color: #f65261;
+  min-width: 210px;
+}
+
+.c0:hover {
+  background-color: #f65261cc;
+}
+
+.c0:active {
+  background-color: #90343c;
+  color: #fff;
+}
+
+.c0:hover {
+  background: #f65261;
+  color: #fff;
+}
+
+<body>
+    <div>
+      <button
+        class="c0"
+        type="submit"
+        value="Button"
+      >
+        Button
+      </button>
+    </div>
+  </body>,
+  "container": .c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 15px 60px;
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 1;
+  background: #f65261;
+  border: 1px solid #f65261;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  -webkit-transition: 200ms;
+  transition: 200ms;
+  background: #232323;
+  color: #f65261;
+  min-width: 210px;
+}
+
+.c0:hover {
+  background-color: #f65261cc;
+}
+
+.c0:active {
+  background-color: #90343c;
+  color: #fff;
+}
+
+.c0:hover {
+  background: #f65261;
+  color: #fff;
+}
+
+<div>
+    <button
+      class="c0"
+      type="submit"
+      value="Button"
+    >
+      Button
+    </button>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

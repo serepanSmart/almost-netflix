@@ -1,13 +1,14 @@
 module.exports = {
   env: {
     browser: true,
+    'jest/globals': true,
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     sourceType: 'module',
   },
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
-  plugins: ['@typescript-eslint', 'react-hooks'],
+  plugins: ['@typescript-eslint', 'react-hooks', 'jest'],
   ignorePatterns: [
     'webpack.config.js',
     'webpack/*.*',
@@ -15,6 +16,7 @@ module.exports = {
     'src/serverRenderer.js',
     '.eslintrc*',
     'srcUIDatePickerDatePickerStyles.ts',
+    'jest_config/*.js',
   ],
   rules: {
     'no-console': 'warn',
@@ -73,6 +75,7 @@ module.exports = {
     'no-unsafe-finally': 'error',
     'no-var': 'error',
     'spaced-comment': ['error', 'always', { markers: ['/'] }],
+    quotes: [2, 'single', 'avoid-escape'],
   },
   overrides: [
     {

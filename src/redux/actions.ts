@@ -17,7 +17,7 @@ export const showLoader = (): AppAction<void, typeof SHOW_LOADER> => {
 //   return { type: HIDE_LOADER };
 // };
 
-// Alternative (maybe more readable): ==> I WILL LEAVE IT HERE FOR NOW
+// Alternative (maybe more readable):
 export const hideLoader = createAction(HIDE_LOADER);
 
 // createAsyncThunk could be used as alternative, but it will require args format change

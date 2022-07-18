@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { fetchMovies } from '@/redux/actions';
@@ -9,10 +9,12 @@ import { CenteredRow, SearchForm } from './styles';
 import { EXTERNAL_LINK, rootPath } from '@/constants';
 import { useModalContext } from '@/context/ModalContext';
 import { useMoviesContext } from '@/context/MoviesContext';
+import { urlConstructor } from '@/context/utils';
 
 const BannerContainer: React.FC = () => {
   const { openModalHandler } = useModalContext();
-  const { searchInputValue, handleInputChange, query } = useMoviesContext();
+  const { searchInputValue, handleInputChange, sortValue, filterValue } =
+    useMoviesContext();
 
   const loading = useSelector((state: RootState) => {
     return state.app.loading;
@@ -22,45 +24,47 @@ const BannerContainer: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const searchParams = `?search=${searchInputValue}&searchBy=title&`;
-
-  const search = query.includes(searchParams)
-    ? query
-    : `?search=${searchInputValue}&searchBy=title&${query.replace('?', '')}`;
-
   const sendSearchRequest = (e: React.FormEvent): void => {
     e.preventDefault();
     if (searchInputValue.trim()) {
-      dispatch(fetchMovies(search));
-      navigate(`${rootPath}/${searchInputValue}${search}`, { replace: true });
+      const API = urlConstructor(
+        sortValue,
+        filterValue,
+        undefined,
+        searchInputValue,
+      );
+      dispatch(fetchMovies(API));
+      navigate(`${rootPath}/${searchInputValue}${API}`, { replace: true });
     }
     return;
   };
 
-  const handleOpenModal = useCallback(() => {
-    openModalHandler('Add Movie');
-  }, [openModalHandler]);
+  const handleOpenModal = (): void => openModalHandler('Add Movie');
 
   return (
     <>
       <CenteredRow>
         <EXTERNAL_LINK />
         <Button
-          type="button"
-          value="+ Add Movie"
+          type='button'
+          value='+ Add Movie'
           onClick={handleOpenModal}
-          theme="light"
+          theme='light'
         />
       </CenteredRow>
       <h1>FIND YOUR MOVIE</h1>
       <CenteredRow>
-        <SearchForm action="" onSubmit={sendSearchRequest}>
+        <SearchForm
+          action=''
+          onSubmit={sendSearchRequest}
+          data-testid='seacrh-form'
+        >
           <Input
             value={searchInputValue || ''}
             onChange={handleInputChange}
-            placeholder="Type movie name here..."
-            margin="right"
-            name="search_movie"
+            placeholder='Type movie name here...'
+            margin='right'
+            name='search_movie'
           />
           <Button
             value={loading ? null : 'Search'}

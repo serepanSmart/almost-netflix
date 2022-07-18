@@ -15,7 +15,7 @@ export type Option = {
 };
 
 // eslint-disable-next-line no-redeclare
-const Option = (props): ReactElement => {
+export const Option = (props): ReactElement => {
   return (
     <components.Option {...props}>
       <Label type="inline-checkbox">

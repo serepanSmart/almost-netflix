@@ -6,8 +6,6 @@ import { StyledCheckbox } from '../Checkbox/styles';
 export interface LabelProps
   extends Omit<React.HTMLProps<HTMLLabelElement>, 'as' | 'ref' | 'css'> {
   required?: boolean;
-  inline?: boolean;
-  isLoading?: boolean;
   type?: 'inline-checkbox' | 'single-checkbox' | 'col-checkbox';
 }
 
