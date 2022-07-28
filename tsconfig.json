@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "outDir": "./dist/",
     "module": "commonjs",
     "target": "es5",
@@ -24,12 +24,15 @@
       "@/*": [
         "./src/*"
       ],
+      "@public/*": ["./public/*"],
     },
+    "baseUrl": ".",
+    "incremental": true
   },
   "exclude": [
     "node_modules"
   ],
   "include": [
     "src"
-  ]
+, "_middleware.ts"  ]
 }

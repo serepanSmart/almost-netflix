@@ -13,6 +13,12 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     overflow: scroll;
+
+    #__next {
+      min-height: calc(100vh + 70px);
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   * {

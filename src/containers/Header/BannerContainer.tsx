@@ -1,42 +1,44 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { fetchMovies } from '@/redux/actions';
-import { useDispatch } from '@/redux/store';
 import { RootState } from '@/redux/rootReducer';
 import { Button, Input } from '@/UI';
 import { CenteredRow, SearchForm } from './styles';
-import { EXTERNAL_LINK, rootPath } from '@/constants';
+import { EXTERNAL_LINK } from '@/constants';
 import { useModalContext } from '@/context/ModalContext';
 import { useMoviesContext } from '@/context/MoviesContext';
 import { urlConstructor } from '@/context/utils';
+import { useRouter } from 'next/router';
 
 const BannerContainer: React.FC = () => {
   const { openModalHandler } = useModalContext();
-  const { searchInputValue, handleInputChange, sortValue, filterValue } =
-    useMoviesContext();
+  const {
+    searchInputValue,
+    setQueryParameters,
+    handleInputChange,
+    sortValue,
+    filterValue,
+  } = useMoviesContext();
+
+  const router = useRouter();
 
   const loading = useSelector((state: RootState) => {
     return state.app.loading;
   });
 
-  const navigate = useNavigate();
-
-  const dispatch = useDispatch();
-
   const sendSearchRequest = (e: React.FormEvent): void => {
     e.preventDefault();
-    if (searchInputValue.trim()) {
-      const API = urlConstructor(
-        sortValue,
-        filterValue,
-        undefined,
-        searchInputValue,
-      );
-      dispatch(fetchMovies(API));
-      navigate(`${rootPath}/${searchInputValue}${API}`, { replace: true });
+    if (!searchInputValue.trim()) {
+      router.push('/');
+      return;
     }
-    return;
+    const API = `${searchInputValue}${urlConstructor(
+      sortValue,
+      filterValue,
+      undefined,
+      searchInputValue,
+    )}`;
+    router.push(API);
+    setQueryParameters(API);
   };
 
   const handleOpenModal = (): void => openModalHandler('Add Movie');

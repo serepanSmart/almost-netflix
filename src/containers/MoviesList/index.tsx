@@ -7,8 +7,9 @@ import MoviesContainer from './MoviesContainer';
 import { RootState } from '@/redux/rootReducer';
 import { defaultOptions } from '@/context/utils';
 import { useHandleMovie } from './utils';
+import { MoviesListProps } from '@/types';
 
-const MoviesList: React.FC = () => {
+const MoviesList: React.FC<MoviesListProps> = ({ list }) => {
   const {
     handleSelectGenre,
     filtersList,
@@ -16,10 +17,6 @@ const MoviesList: React.FC = () => {
     selectedOption,
     handleShowMovie,
   } = useHandleMovie();
-
-  const moviesList = useSelector((state: RootState) => {
-    return state.movies.moviesList.data;
-  });
 
   const loading = useSelector((state: RootState) => {
     return state.app.loading;
@@ -45,7 +42,7 @@ const MoviesList: React.FC = () => {
       {loading ? (
         <Loader />
       ) : (
-        <MoviesContainer list={moviesList} onClick={handleShowMovie} />
+        <MoviesContainer list={list} onClick={handleShowMovie} />
       )}
     </Container>
   );

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import BannerIng from '@/assets/banner.png';
+import banner from '@public/banner.webp';
 
 const Wrapper = styled.div`
 position: relative;
@@ -8,7 +8,7 @@ position: relative;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background: url(${BannerIng});
+  background: url(${banner.src});
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

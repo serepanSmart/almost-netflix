@@ -1,40 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Search } from '@styled-icons/bootstrap';
 import { Button, Colors } from '@/UI';
 import { useMoviesContext } from '@/context';
-import { EXTERNAL_LINK, URL } from '@/constants';
+import { EXTERNAL_LINK, API } from '@/constants';
 import { addDefaultSrc } from '@/utils';
 import { IMovie } from '@/service';
 import { showAlert } from '@/redux/actions';
 import { useDispatch } from '@/redux/store';
 import { CenteredRow, InfoWrapper, RatingWrapper, InfoImg } from './styles';
+import { useRouter } from 'next/router';
 
 const CardContainer: React.FC<{ movieId: string }> = ({ movieId }) => {
-  const { query, resetCardInfo } = useMoviesContext();
+  const { resetCardInfo, setMovieId } = useMoviesContext();
   const [movie, setMovie] = useState<IMovie>(null);
 
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
+  const router = useRouter();
 
-  const fetchMovies = React.useCallback(async () => {
+  const fetchMovie = useCallback(async (): Promise<void> => {
     try {
-      const response = await fetch(`${URL}/${movieId}`);
+      const response = await fetch(`${API}/${movieId}`);
       if (!response.ok) {
-        throw new Error('NO SUCH MOVIE');
+        throw new Error(`NO SUCH MOVIE WITH ID # ${movieId}`);
       }
       const json = await response.json();
       setMovie(json);
     } catch (e) {
-      dispatch(showAlert('Warning', e.message || 'NO SUCH MOVIE', 'warning'));
-      navigate(`/${query}`);
+      dispatch(showAlert('Warning', e.message, 'warning'));
+      setMovieId('');
+      setMovie(null);
+      router.push('/');
     }
-  }, [dispatch, movieId, navigate, query]);
+  },[dispatch, movieId, router, setMovieId]);
 
   useEffect(() => {
-    fetchMovies();
-  }, [fetchMovies]);
+    fetchMovie();
+  }, [fetchMovie, movieId]);
 
   return (
     <>

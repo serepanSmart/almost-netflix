@@ -1,28 +1,23 @@
 import React, { useState, useCallback } from 'react';
+import Image from 'next/image';
 import { X, ThreeDotsVertical } from '@styled-icons/bootstrap';
 import { Card, Caption, Actions } from './styles';
 import { Button, Select, Option, OptionWithoutCheckbox } from '@/UI';
 import { IMovie } from '@/service';
 import { OnChangeValue } from 'react-select';
-import { addDefaultSrc } from '@/utils';
 import { useModalContext } from '@/context/ModalContext';
-import { imgLoading } from '@/constants';
+import { imgPlaceholder } from '@/utils';
 
 const defaultOptions: Option[] = [
   { value: 'edit', label: 'edit' },
   { value: 'delete', label: 'delete' },
 ];
 
-const MovieCard: React.FC<Partial<IMovie>> = ({
-  card,
-  onCLick,
-}) => {
+const MovieCard: React.FC<Partial<IMovie>> = ({ card, onCLick }) => {
+  const [src, setSrc] = useState(card.poster_path);
   const [isActionsOpened, setActionsOpened] = useState<boolean>(false);
-  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
   const { openModalHandler } = useModalContext();
-
-  const setImageToPlaceholder = (): void => setImageLoaded(true);
 
   const stopBubbling = (e: React.MouseEvent<HTMLDivElement>): void =>
     e.stopPropagation();
@@ -46,11 +41,16 @@ const MovieCard: React.FC<Partial<IMovie>> = ({
 
   return (
     <Card md={4} onClick={onCLick}>
-      <img
-        src={imageLoaded ? card.poster_path : imgLoading}
+      <Image
+        src={src}
         alt={card.title}
-        onError={addDefaultSrc}
-        onLoad={setImageToPlaceholder}
+        onError={() => setSrc(imgPlaceholder)}
+        width='100%'
+        height='100%'
+        layout='responsive'
+        objectFit='cover'
+        placeholder='blur'
+        blurDataURL={imgPlaceholder}
       />
       <Actions onClick={stopBubbling}>
         <Button icon onClick={openDropdownHandler}>

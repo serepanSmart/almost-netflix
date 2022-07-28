@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Row } from 'styled-bootstrap-grid';
 import { Colors } from '@/UI';
-import BannerIng from '@/assets/banner.png';
+import banner from '@public/banner.webp';
 
 const Banner = styled.div`
   position: relative;
@@ -9,7 +9,7 @@ const Banner = styled.div`
   margin-bottom: 30px;
   padding-top: 15px;
   padding-bottom: 15px;
-  background: url(${BannerIng});
+  background: url(${banner.src});
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

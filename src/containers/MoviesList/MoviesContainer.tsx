@@ -13,7 +13,7 @@ const MoviesContainer: React.FC<{
   list: IMovie[];
   onClick: (id: number) => void;
 }> = ({ list, onClick }) => {
-  if (!list.length) {
+  if (!list && !list.length) {
     return <h3>Sorry, no movies found, check later please</h3>;
   }
 

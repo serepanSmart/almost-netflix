@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { OnChangeValue } from 'react-select';
 import { useMoviesContext } from '@/context';
 import {
@@ -11,7 +10,7 @@ import filters from '@/containers/Controls/filtersList';
 import { ITab, Option } from '@/UI';
 import { useDispatch } from '@/redux/store';
 import { fetchMovies } from '@/redux/actions';
-import { rootPath } from '@/constants';
+import { useRouter } from 'next/router';
 
 interface IHandleMovies {
   filtersList: ITab[];
@@ -26,55 +25,44 @@ export const useHandleMovie = (): IHandleMovies => {
   const [selectedOption, setSelectedOption] = useState(defaultOptions[0]);
 
   const {
-    query,
-    setQuery,
+    queryParameters,
+    setQueryParameters,
     sortValue,
     setSortValue,
     filterValue,
     setFilterValue,
     movieId,
     setMovieId,
-    setYOffset,
-    setSearchInputValue,
+    searchInputValue,
   } = useMoviesContext();
 
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const dispatch = useDispatch();
-
-  const { pathname } = useLocation();
-
-  const searchQuery = pathname.split(`${rootPath}/`)[1];
 
   const setUrlParams =
     (
       sortParameter = defaultOption,
-      filterValue = '',
+      filter = filterValue,
       id = movieId,
-      search = ''
+      search = searchInputValue
     ): void => {
-      dispatch(
-        fetchMovies(urlConstructor(sortParameter, filterValue, id, search)));
-      setQuery(urlConstructor(sortParameter, filterValue, id, search));
+      setQueryParameters(urlConstructor(sortParameter, filter, id, search));
       setSortValue(sortParameter);
-      setFilterValue(filterValue);
+      setFilterValue(filter);
       setMovieId(id);
-      navigate(
-        urlConstructor(sortParameter, filterValue, id, search),
-        { replace: true }
-      );
+      router.push(`${searchInputValue}${urlConstructor(sortParameter, filter, id, search)}`);
     };
 
   // FUNCTION TO CHANGE ACTIVE TAB STATE
-  const selectActiveTabHandler = (value: string): void =>
+  const selectActiveTabHandler = (value: string | string[]): void =>
     setFilterslist((prevState: ITab[]) => {
       try {
         prevState.find((tab) => tab.active).active = false;
         prevState.find((tab) => tab.value === value).active = true;
       } catch {
         prevState.find((tab) => tab.value === 'All').active = true;
-        navigate(query);
-        dispatch(fetchMovies(query));
+        dispatch(fetchMovies(queryParameters));
       }
       return [...prevState];
     });
@@ -84,7 +72,7 @@ export const useHandleMovie = (): IHandleMovies => {
     (newValue: OnChangeValue<Option, false>): void => {
       setSelectedOption(newValue as Option);
       const sortParameter = newValue.value;
-      setUrlParams(sortParameter, filterValue, undefined, searchQuery);
+      setUrlParams(sortParameter, filterValue, undefined);
     };
 
   // GENRE FILTER TABS
@@ -92,30 +80,27 @@ export const useHandleMovie = (): IHandleMovies => {
     (e: ITab): void => {
       if (e.value === 'All') {
         selectActiveTabHandler('All');
-        setUrlParams(sortValue, '', undefined, searchQuery);
+        setUrlParams(sortValue, '', undefined);
       } else {
         selectActiveTabHandler(e.value);
-        setUrlParams(sortValue, e.value, undefined, searchQuery);
+        setUrlParams(sortValue, e.value, undefined);
       }
     };
 
   const handleShowMovie = (id: number): void => {
     setMovieId(id?.toString());
-    const setParams = urlConstructor(sortValue, filterValue, id.toString());
-    setQuery(setParams);
-    navigate(setParams);
-    setYOffset(window.scrollY);
+    const setParams = searchInputValue + urlConstructor(
+      sortValue,
+      filterValue,
+      id.toString(),
+      searchInputValue
+    );
+    setQueryParameters(setParams);
+    router.push(setParams);
     window.scrollTo(0, 0);
   };
 
-  // GET MOVIES BY DEFAULT, INIT LOAD
   useEffect(() => {
-    if (pathname.length > `${rootPath}/`.length) {
-      setUrlParams(sortValue, filterValue, undefined, searchQuery);
-      setSearchInputValue(searchQuery);
-    } else {
-      dispatch(fetchMovies(query));
-    }
     if (filterValue) {
       selectActiveTabHandler(filterValue);
     }

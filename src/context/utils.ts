@@ -10,11 +10,13 @@ export const defaultOption = defaultOptions[0].value;
 
 export const urlConstructor = (
   select = defaultOption,
-  genre = '',
+  genre: string | string[] = '',
   movieId = '',
-  search = '',
+  search: string | string[] = '',
   order = defaultOrder,
 ): string => {
   // eslint-disable-next-line max-len
   return `?${search ? `search=${search}&searchBy=title&` : ''}${movieId ? `movie=${movieId}&` : ''}sortBy=${select}&${order}${genre ? `&filter=${genre}` : ''}`;
 };
+
+export const queryParams = urlConstructor();

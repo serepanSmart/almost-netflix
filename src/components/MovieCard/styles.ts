@@ -1,6 +1,11 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Col } from 'styled-bootstrap-grid';
 import { Colors } from '@/UI';
+
+const show = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
 
 export const Card = styled(Col)`
 position: relative;
@@ -9,6 +14,7 @@ flex-direction: column;
 max-width: 30%;
 margin-bottom: 40px;
 cursor: pointer;
+animation: ${show} 400ms ease-in-out;
   h3 {
     display: inline-block;
     margin-bottom: 10px;

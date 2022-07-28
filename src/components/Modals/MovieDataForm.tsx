@@ -19,6 +19,7 @@ import { defaultOptions, ErrorMsg } from './helpers';
 import useValidateFields from './validate';
 
 const MovieDataForm: React.FC = () => {
+
   const { onRequestClose, movie, setMovie, onSubmit, handleInputChange } =
     useModalContext();
 
@@ -81,7 +82,8 @@ const MovieDataForm: React.FC = () => {
     }
   };
 
-  useEffect(() => {        // ADD 'TAGLINE' FIELD IF IT IS EMPTY AND IT IS REQUIRED
+  useEffect(() => {
+    // ADD 'TAGLINE' FIELD IF IT IS EMPTY AND IT IS REQUIRED
     !movie?.tagline &&
       setMovie((prev) => {
         if (prev) {
@@ -105,50 +107,50 @@ const MovieDataForm: React.FC = () => {
         <Form>
           <Modal.Body>
             <InnerGroup>
-              <InnerCol spacer="right" size={1} direction="column">
-                <Label type="col-checkbox" htmlFor="title" required>
+              <InnerCol spacer='right' size={1} direction='column'>
+                <Label type='col-checkbox' htmlFor='title' required>
                   Title
                 </Label>
                 <Field
-                  id="title"
-                  name="title"
+                  id='title'
+                  name='title'
                   as={Input}
                   value={movie?.title ?? ''}
                   onChange={handleInputChange}
-                  placeholder="Title"
+                  placeholder='Title'
                   validate={() => validateInputValue(movie?.title)}
                 />
                 {errors.title && touched.title ? (
                   <ErrorMsg>{errors.title}</ErrorMsg>
                 ) : null}
               </InnerCol>
-              <InnerCol direction="column">
-                <Label htmlFor="release_date" type="col-checkbox">
+              <InnerCol direction='column'>
+                <Label htmlFor='release_date' type='col-checkbox'>
                   Release Date
                 </Label>
                 <Field
                   as={DatePicker}
-                  portalId="root-portal"
+                  portalId='root-portal'
                   showWeekNumbers
                   monthsShown={1}
-                  placeholderText="Select Date"
-                  id="release_date"
+                  placeholderText='Select Date'
+                  id='release_date'
                   value={selectedDate}
                   onChange={handleChangeDate}
                 />
               </InnerCol>
             </InnerGroup>
             <InnerGroup>
-              <InnerCol spacer="right" size={1} direction="column">
-                <Label type="col-checkbox" htmlFor="poster_path" required>
+              <InnerCol spacer='right' size={1} direction='column'>
+                <Label type='col-checkbox' htmlFor='poster_path' required>
                   Movie Url
                 </Label>
                 <Field
                   as={Input}
-                  id="poster_path"
-                  name="poster_path"
-                  placeholder="https://"
-                  type="url"
+                  id='poster_path'
+                  name='poster_path'
+                  placeholder='https://'
+                  type='url'
                   value={movie?.poster_path ?? ''}
                   onChange={handleInputChange}
                   validate={() => validateUrlValue(movie?.poster_path)}
@@ -157,33 +159,33 @@ const MovieDataForm: React.FC = () => {
                   <ErrorMsg>{errors.poster_path}</ErrorMsg>
                 ) : null}
               </InnerCol>
-              <InnerCol direction="column">
-                <Label type="col-checkbox" htmlFor="vote_average">
+              <InnerCol direction='column'>
+                <Label type='col-checkbox' htmlFor='vote_average'>
                   Rating
                 </Label>
                 <Field
                   as={Input}
-                  id="vote_average"
-                  name="vote_average"
-                  type="number"
+                  id='vote_average'
+                  name='vote_average'
+                  type='number'
                   step={0.1}
                   value={movie?.vote_average ?? 0}
                   onChange={handleInputChange}
-                  placeholder="Set Rating"
+                  placeholder='Set Rating'
                 />
               </InnerCol>
             </InnerGroup>
             <InnerGroup>
-              <InnerCol spacer="right" size={1} direction="column">
-                <Label type="col-checkbox" required>
+              <InnerCol spacer='right' size={1} direction='column'>
+                <Label type='col-checkbox' required>
                   Genre
                 </Label>
                 <Field
                   as={Select}
                   options={defaultOptions}
                   isMulti
-                  id="genres"
-                  name="genres"
+                  id='genres'
+                  name='genres'
                   closeMenuOnSelect={false}
                   value={selectValue}
                   onChange={handleChangeOption}
@@ -193,18 +195,18 @@ const MovieDataForm: React.FC = () => {
                   <ErrorMsg>{errors.genres}</ErrorMsg>
                 ) : null}
               </InnerCol>
-              <InnerCol direction="column">
-                <Label htmlFor="runtime" type="col-checkbox" required>
+              <InnerCol direction='column'>
+                <Label htmlFor='runtime' type='col-checkbox' required>
                   Runtime
                 </Label>
                 <Field
                   as={Input}
-                  id="runtime"
-                  name="runtime"
-                  type="number"
+                  id='runtime'
+                  name='runtime'
+                  type='number'
                   value={movie?.runtime || 0}
                   onChange={handleInputChange}
-                  placeholder="Minutes"
+                  placeholder='Minutes'
                   validate={() => validateInputValue(movie?.runtime)}
                 />
                 {errors.runtime && touched.runtime ? (
@@ -212,19 +214,19 @@ const MovieDataForm: React.FC = () => {
                 ) : null}
               </InnerCol>
             </InnerGroup>
-            <InnerCol direction="column">
-              <Label type="col-checkbox" htmlFor="overview" required>
+            <InnerCol direction='column'>
+              <Label type='col-checkbox' htmlFor='overview' required>
                 OVERVIEW
               </Label>
               <Field
                 as={TextArea}
                 rows={2}
-                name="overview"
-                id="overview"
+                name='overview'
+                id='overview'
                 value={movie?.overview ?? ''}
                 onChange={handleInputChange}
                 validate={() => validateInputValue(movie?.overview)}
-                placeholder="Movie description"
+                placeholder='Movie description'
               />
               {errors.overview && touched.overview ? (
                 <ErrorMsg>{errors.overview}</ErrorMsg>
@@ -234,12 +236,12 @@ const MovieDataForm: React.FC = () => {
           <Modal.Footer>
             <ButtonGroup>
               <Button
-                type="button"
-                value="Reset"
+                type='button'
+                value='Reset'
                 onClick={onRequestClose}
-                theme="reject"
+                theme='reject'
               />
-              <Button type="submit" value="Submit" onClick={null} />
+              <Button type='submit' value='Submit' onClick={null} />
             </ButtonGroup>
           </Modal.Footer>
         </Form>

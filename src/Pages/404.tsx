@@ -1,23 +1,23 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Wrapper from './styles';
-import ErrorImg from '@/assets/eddie.gif';
-import { useNavigate } from 'react-router-dom';
 
 const NotFound: React.FC = () => {
   const [timer, setTimer] = useState<number>(5);
-  const navigate = useNavigate();
+
+  const router = useRouter();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      navigate('/');
+      router.push('/');
     }, 5000);
 
     return () => clearTimeout(timeout);
-  }, [navigate]);
+  }, [router]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimer(prev => --prev);
+      setTimer((prev) => --prev);
     }, 1000);
 
     return () => clearInterval(interval);
@@ -27,7 +27,11 @@ const NotFound: React.FC = () => {
     <Wrapper>
       <h1>404 - PAGE NOT FOUND</h1>
       <h1>Redirection to main page in {timer} seconds</h1>
-      <img src={ErrorImg} alt="page 404 - Not Found" />
+      <img
+        // eslint-disable-next-line max-len
+        src='https://thumbs.gfycat.com/ForthrightAromaticIcterinewarbler-size_restricted.gif'
+        alt='page 404 - Not Found'
+      />
     </Wrapper>
   );
 };
