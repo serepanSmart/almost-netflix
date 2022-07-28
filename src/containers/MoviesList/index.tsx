@@ -15,7 +15,6 @@ const MoviesList: React.FC<MoviesListProps> = ({ list }) => {
     filtersList,
     handleChangeOption,
     selectedOption,
-    handleShowMovie,
   } = useHandleMovie();
 
   const loading = useSelector((state: RootState) => {
@@ -42,7 +41,7 @@ const MoviesList: React.FC<MoviesListProps> = ({ list }) => {
       {loading ? (
         <Loader />
       ) : (
-        <MoviesContainer list={list} onClick={handleShowMovie} />
+        <MoviesContainer list={list} />
       )}
     </Container>
   );

@@ -11,8 +11,7 @@ export const CenteredRow = styled(Row)`
 
 const MoviesContainer: React.FC<{
   list: IMovie[];
-  onClick: (id: number) => void;
-}> = ({ list, onClick }) => {
+}> = ({ list }) => {
   if (!list && !list.length) {
     return <h3>Sorry, no movies found, check later please</h3>;
   }
@@ -27,7 +26,6 @@ const MoviesContainer: React.FC<{
           <MovieCard
             key={card.id}
             card={card}
-            onCLick={() => onClick(Number(card.id))}
           />
         ))}
       </CenteredRow>

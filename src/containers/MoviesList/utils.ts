@@ -17,7 +17,6 @@ interface IHandleMovies {
   selectedOption: Option | Option[];
   handleChangeOption: (newValue: OnChangeValue<Option, false>) => void;
   handleSelectGenre: (e: ITab) => void;
-  handleShowMovie: (card: number) => void;
 }
 
 export const useHandleMovie = (): IHandleMovies => {
@@ -87,19 +86,6 @@ export const useHandleMovie = (): IHandleMovies => {
       }
     };
 
-  const handleShowMovie = (id: number): void => {
-    setMovieId(id?.toString());
-    const setParams = searchInputValue + urlConstructor(
-      sortValue,
-      filterValue,
-      id.toString(),
-      searchInputValue
-    );
-    setQueryParameters(setParams);
-    router.push(setParams);
-    window.scrollTo(0, 0);
-  };
-
   useEffect(() => {
     if (filterValue) {
       selectActiveTabHandler(filterValue);
@@ -111,6 +97,5 @@ export const useHandleMovie = (): IHandleMovies => {
     selectedOption,
     handleChangeOption,
     handleSelectGenre,
-    handleShowMovie,
   };
 };

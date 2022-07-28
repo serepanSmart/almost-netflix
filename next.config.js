@@ -8,6 +8,12 @@ module.exports = {
         basePath: false,
         permanent: true,
       },
+      {
+        source: '/search/movies',
+        destination: '/search',
+        basePath: false,
+        permanent: true,
+      },
     ];
   },
   images: {

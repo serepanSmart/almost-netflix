@@ -4,10 +4,12 @@ import { AnyAction } from 'redux';
 
 interface State {
   moviesList: { data: IMovie[] };
+  movie: IMovie;
 }
 
 const initialState: State = {
   moviesList: { data: [] },
+  movie: null
 };
 
 export const getDataReducer =

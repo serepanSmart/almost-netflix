@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import CardContainer from './CardContainer';
+import CardContainer from '.';
 import TestWrapper from '@/TestWrapper';
 
 describe('CardContainer Header component', () => {
