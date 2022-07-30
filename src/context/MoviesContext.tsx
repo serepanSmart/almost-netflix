@@ -12,6 +12,8 @@ import { ChildrenProps } from '@/types';
 import { urlConstructor, defaultOption, queryParams } from './utils';
 import router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { IMovie } from '@/service';
+import { API } from '@/constants';
 
 interface IContextProps {
   handleInputChange: (e: React.SyntheticEvent<HTMLInputElement>) => void;
@@ -47,18 +49,37 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> = ({
   const [queryParameters, setQueryParameters] = useState<string>(
     `${searchInputValue}${queryParams}`,
   );
-  const [movieId, setMovieId] = useState<string>('');
+  const [selectedMovie, setSelectedMovie] = useState<IMovie>();
   const [sortValue, setSortValue] = useState<string>(defaultOption);
   const [filterValue, setFilterValue] = useState<string | string[]>(
     filter || '',
   );
 
-  useEffect(() => {
-    // ACCORDING TO NEXT.JS DOCS IT PREVENTS react-hydration-error, https://nextjs.org/docs/messages/react-hydration-error
-    if (movie) {
-      setMovieId(movie.toString());
+  // useEffect(() => {
+  //   // ACCORDING TO NEXT.JS DOCS IT PREVENTS react-hydration-error, https://nextjs.org/docs/messages/react-hydration-error
+  //   if (movie) {
+  //     setMovieId(movie.toString());
+  //   }
+  // }, [movie]);
+
+  // from CardContainer
+  const fetchMovie = useCallback(async (movieId: string): Promise<void> => {
+    try {
+      const response = await fetch(`${API}/${movieId}`);
+      if (!response.ok) {
+        throw new Error(`NO SUCH MOVIE WITH ID # ${movieId}`);
+      }
+      const json = await response.json();
+
+      setSelectedMovie(json);
+    } catch (e) {
+      // dispatch(showAlert('Warning', e.message, 'warning'));
+      // setMovieId('');
+      setSelectedMovie(undefined);
+
+      router.push('/');
     }
-  }, [movie]);
+  }, []);
 
   useEffect(() => {
     if (search !== searchQuery) {
@@ -82,10 +103,13 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> = ({
 
   // ON CLICK CARD TO SHOW INFO IN THE BANNER
   const resetCardInfo = useCallback(() => {
-    setMovieId('');
+    // setMovieId('');
+    setSelectedMovie(undefined);
+
     const setParams =
       searchInputValue +
       urlConstructor(sortValue, filterValue, '', searchInputValue);
+
     setQueryParameters(setParams);
     router.push(setParams);
   }, [filterValue, searchInputValue, sortValue]);
@@ -102,8 +126,12 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> = ({
       filterValue,
       setFilterValue,
       setSearchInputValue,
-      movieId,
-      setMovieId,
+      // movieId,
+      // setMovieId,
+
+      // new properties:
+      // movie,
+      // setSelectedMovie,
     }),
     [
       resetCardInfo,
@@ -112,7 +140,7 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> = ({
       queryParameters,
       sortValue,
       filterValue,
-      movieId,
+      // movieId,
     ],
   );
 

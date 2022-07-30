@@ -27,7 +27,7 @@ const MoviesContainer: React.FC<{
           <MovieCard
             key={card.id}
             card={card}
-            onCLick={() => onClick(Number(card.id))}
+            onClick={() => onClick(Number(card.id))}
           />
         ))}
       </CenteredRow>

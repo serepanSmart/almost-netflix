@@ -6,9 +6,10 @@ import { MoviesListProps } from '@/types';
 
 const MoviesList = React.lazy(() => import('@/containers/MoviesList'));
 
-const MainPage: React.FC<MoviesListProps> = ({ list }) => (
+const MainPage: React.FC<MoviesListProps> = ({ list, movie }) => (
   <ErrorBoundary>
-    <Header />
+    <Header movie={movie} />
+
     <React.Suspense fallback={<Loader />}>
       <MoviesList list={list} />
     </React.Suspense>
