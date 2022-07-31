@@ -4,7 +4,11 @@ import { API } from '@/constants';
 import { FETCH_MOVIES } from '@/redux/actionTypes';
 import store from '@/redux/store';
 import { IMovie } from '@/service';
-import { Redirect } from 'next';
+import {
+  DEFAULT_SEARCH_PARAM,
+  DEFAULT_SORT_VALUE,
+  DEFAULT_SORT_ORDER
+} from '@/constants';
 
 interface FetchDataProps {
   props: { list: IMovie[] | Record<string, unknown>; movie?: IMovie };
@@ -15,17 +19,15 @@ interface FetchDataProps {
 }
 
 export const fetchDataOnServerSide = async (
-  query: Record<string, string>,
-  params: Record<string, string>,
+  query: Record<string, string>
 ): Promise<FetchDataProps> => {
-  const { filter, movie, sortBy, sortOrder } = query;
-  const { searchQuery } = params;
+  const { filter, movie, sortBy, sortOrder, searchQuery } = query;
 
   const moviesRequestQueryParams = {
     search: searchQuery,
-    searchBy: 'title',
-    sortBy,
-    sortOrder,
+    searchBy: DEFAULT_SEARCH_PARAM,
+    sortBy: sortBy || DEFAULT_SORT_VALUE,
+    sortOrder: sortOrder || DEFAULT_SORT_ORDER,
     filter,
   };
 

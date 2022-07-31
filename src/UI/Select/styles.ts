@@ -72,6 +72,7 @@ const StyledSelect = styled(Select) <{ inCard?: boolean }>`
     background: ${Colors.Grey};
     width: 100%;
     font-weight: 500;
+    font-size: 1.1rem;
     text-transform: uppercase;
     cursor: pointer;
     &:first-of-type {

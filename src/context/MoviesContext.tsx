@@ -9,26 +9,14 @@ import React, {
   SetStateAction,
 } from 'react';
 import { ChildrenProps } from '@/types';
-import { urlConstructor, defaultOption, queryParams } from './utils';
 import router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { IMovie } from '@/service';
-import { API } from '@/constants';
 
 interface IContextProps {
   handleInputChange: (e: React.SyntheticEvent<HTMLInputElement>) => void;
-  resetCardInfo: () => void;
   searchInputValue: string;
   setSearchInputValue: Dispatch<SetStateAction<string>>;
   search?: string;
-  queryParameters: string;
-  setQueryParameters: Dispatch<SetStateAction<string>>;
-  movieId: string;
-  setMovieId: Dispatch<SetStateAction<string>>;
-  sortValue: string;
-  setSortValue: Dispatch<SetStateAction<string>>;
-  filterValue: string | string[];
-  setFilterValue: Dispatch<SetStateAction<string | string[]>>;
 }
 
 const MoviesContext = createContext<IContextProps | null>(null);
@@ -38,7 +26,7 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> = ({
 }) => {
   // NEXT ROUTER HOOKS
   const { query } = useRouter();
-  const { search, searchQuery, filter, movie } = query;
+  const { search, searchQuery } = query;
 
   const initSearchValue = searchQuery ? searchQuery.toString() : '';
 
@@ -46,53 +34,17 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> = ({
   const [searchInputValue, setSearchInputValue] =
     useState<string>(initSearchValue);
 
-  const [queryParameters, setQueryParameters] = useState<string>(
-    `${searchInputValue}${queryParams}`,
-  );
-  const [selectedMovie, setSelectedMovie] = useState<IMovie>();
-  const [sortValue, setSortValue] = useState<string>(defaultOption);
-  const [filterValue, setFilterValue] = useState<string | string[]>(
-    filter || '',
-  );
-
-  // useEffect(() => {
-  //   // ACCORDING TO NEXT.JS DOCS IT PREVENTS react-hydration-error, https://nextjs.org/docs/messages/react-hydration-error
-  //   if (movie) {
-  //     setMovieId(movie.toString());
-  //   }
-  // }, [movie]);
-
-  // from CardContainer
-  const fetchMovie = useCallback(async (movieId: string): Promise<void> => {
-    try {
-      const response = await fetch(`${API}/${movieId}`);
-      if (!response.ok) {
-        throw new Error(`NO SUCH MOVIE WITH ID # ${movieId}`);
-      }
-      const json = await response.json();
-
-      setSelectedMovie(json);
-    } catch (e) {
-      // dispatch(showAlert('Warning', e.message, 'warning'));
-      // setMovieId('');
-      setSelectedMovie(undefined);
-
-      router.push('/');
-    }
-  }, []);
-
   useEffect(() => {
+    const UrlParams = {
+      ...query,
+      search: searchQuery && searchQuery.toString() || '',
+    };
     if (search !== searchQuery) {
       router.push(
-        `${searchQuery}${urlConstructor(
-          sortValue,
-          filterValue,
-          undefined,
-          searchQuery,
-        )}`,
+        `/${searchQuery}?${new URLSearchParams(UrlParams).toString()}`,
       );
     }
-  }, [filterValue, movie, search, searchQuery, sortValue]);
+  }, [query, search, searchQuery]);
 
   const handleInputChange = useCallback(
     (e: React.SyntheticEvent<HTMLInputElement>): void => {
@@ -101,47 +53,13 @@ const MoviesContextProvider: FunctionComponent<ChildrenProps> = ({
     [],
   );
 
-  // ON CLICK CARD TO SHOW INFO IN THE BANNER
-  const resetCardInfo = useCallback(() => {
-    // setMovieId('');
-    setSelectedMovie(undefined);
-
-    const setParams =
-      searchInputValue +
-      urlConstructor(sortValue, filterValue, '', searchInputValue);
-
-    setQueryParameters(setParams);
-    router.push(setParams);
-  }, [filterValue, searchInputValue, sortValue]);
-
   const value = useMemo<IContextProps>(
     () => ({
-      resetCardInfo,
       searchInputValue,
       handleInputChange,
-      queryParameters,
-      setQueryParameters,
-      sortValue,
-      setSortValue,
-      filterValue,
-      setFilterValue,
       setSearchInputValue,
-      // movieId,
-      // setMovieId,
-
-      // new properties:
-      // movie,
-      // setSelectedMovie,
     }),
-    [
-      resetCardInfo,
-      searchInputValue,
-      handleInputChange,
-      queryParameters,
-      sortValue,
-      filterValue,
-      // movieId,
-    ],
+    [handleInputChange, searchInputValue],
   );
 
   return (

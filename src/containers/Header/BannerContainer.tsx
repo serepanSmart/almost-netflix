@@ -6,20 +6,20 @@ import { CenteredRow, SearchForm } from './styles';
 import { EXTERNAL_LINK } from '@/constants';
 import { useModalContext } from '@/context/ModalContext';
 import { useMoviesContext } from '@/context/MoviesContext';
-import { urlConstructor } from '@/context/utils';
 import { useRouter } from 'next/router';
 
 const BannerContainer: React.FC = () => {
   const { openModalHandler } = useModalContext();
-  const {
-    searchInputValue,
-    setQueryParameters,
-    handleInputChange,
-    sortValue,
-    filterValue,
-  } = useMoviesContext();
+  const { searchInputValue, handleInputChange } = useMoviesContext();
 
   const router = useRouter();
+
+  const { query } = router;
+
+  const UrlParams = {
+    ...query,
+    search: searchInputValue,
+  };
 
   const loading = useSelector((state: RootState) => {
     return state.app.loading;
@@ -31,14 +31,9 @@ const BannerContainer: React.FC = () => {
       router.push('/');
       return;
     }
-    const API = `${searchInputValue}${urlConstructor(
-      sortValue,
-      filterValue,
-      undefined,
-      searchInputValue,
-    )}`;
-    router.push(API);
-    setQueryParameters(API);
+    router.push(
+      `/${searchInputValue}?${new URLSearchParams(UrlParams).toString()}`,
+    );
   };
 
   const handleOpenModal = (): void => openModalHandler('Add Movie');

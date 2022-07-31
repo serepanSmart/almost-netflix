@@ -26,6 +26,9 @@ animation: ${show} 400ms ease-in-out;
     object-position: top;
     object-fit: cover;
   }
+  * {
+    color: ${Colors.White};
+  }
 `;
 
 export const Actions = styled.div`

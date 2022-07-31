@@ -1,13 +1,12 @@
 import Filter from './Filter';
 import Sort from './Sort';
 import { ControlsRow } from '@/containers//Controls/styles';
-import { ITab } from '@/UI';
 import { OnChangeValue } from 'react-select';
 import { Option } from '@/UI';
+import { IFilterProps } from './filtersList';
 
 interface IControlsprops {
-  filters: ITab[];
-  onClick: (e: ITab) => void;
+  filters: IFilterProps[];
   value: Option | Option[];
   options: Option[];
   selectedOption: Option | Option[];
@@ -16,14 +15,13 @@ interface IControlsprops {
 
 const Controls: React.FC<IControlsprops> = ({
   filters,
-  onClick,
   options,
   selectedOption,
   onChange,
 }) => {
   return (
     <ControlsRow>
-      <Filter filters={filters} onClick={onClick} />
+      <Filter filters={filters} />
       <Sort
         value={selectedOption}
         onChange={onChange}

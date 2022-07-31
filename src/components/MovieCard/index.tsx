@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { X, ThreeDotsVertical } from '@styled-icons/bootstrap';
 import { Card, Caption, Actions } from './styles';
 import { Button, Select, Option, OptionWithoutCheckbox } from '@/UI';
@@ -7,7 +8,6 @@ import { IMovie } from '@/service';
 import { OnChangeValue } from 'react-select';
 import { useModalContext } from '@/context/ModalContext';
 import { imgPlaceholder } from '@/utils';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 const defaultOptions: Option[] = [
@@ -15,15 +15,21 @@ const defaultOptions: Option[] = [
   { value: 'delete', label: 'delete' },
 ];
 
-const MovieCard: React.FC<Partial<IMovie>> = ({ card, onClick }) => {
-  const router = useRouter();
-  const [src, setSrc] = useState(card.poster_path);
+const MovieCard: React.FC<Partial<IMovie>> = ({ card }) => {
+
+  const { query } = useRouter();
+  const { searchQuery } = query;
+  const [src, setSrc] = useState(card.poster_path ?? imgPlaceholder);
   const [isActionsOpened, setActionsOpened] = useState<boolean>(false);
 
   const { openModalHandler } = useModalContext();
 
-  const stopBubbling = (e: React.MouseEvent<HTMLDivElement>): void =>
+  const stopBubbling = (e: React.MouseEvent<HTMLDivElement>): void => {
+    // HMM, SOMETHNIG STRANGE HAPPENS HERE, HACK FOR PREVENTING LINK BEHAVIOUR
     e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    e.preventDefault();
+  };
 
   const openDropdownHandler = useCallback(() => {
     setActionsOpened(!isActionsOpened);
@@ -43,11 +49,11 @@ const MovieCard: React.FC<Partial<IMovie>> = ({ card, onClick }) => {
   );
 
   return (
-    <Card md={4} onClick={onClick}>
+    <Card md={4}>
       <Link
         href={{
-          pathname: '/',
-          query: { ...router.query, movie: card.id },
+          pathname: `${searchQuery ? searchQuery : '/'}`,
+          query: { ...query, movie: card.id },
         }}
       >
         <a>

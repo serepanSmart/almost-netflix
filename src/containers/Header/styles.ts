@@ -27,6 +27,16 @@ const Banner = styled.div`
     position: relative;
     z-index: 1;
   }
+  
+  a {
+    &:hover {
+      svg {
+        transition: 200ms;
+        fill: ${Colors.White};
+        transform: scale(1.2);
+      }
+    }
+  }
 `;
 
 const CenteredRow = styled(Row) <{

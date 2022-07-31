@@ -1,5 +1,5 @@
 export const EXTERNAL_LINK: React.FC = () => (
-  <a href="https://www.netflix.com/" target="_blank">
+  <a href='https://www.netflix.com/' target='_blank'>
     <b>netflix</b>roulette
   </a>
 );
@@ -11,3 +11,7 @@ export const checkUrlRegExp =
   '^(http://www.|https://www.|http://|https://)[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$';
 
 export const rootPath = 'search/';
+
+export const DEFAULT_SEARCH_PARAM = 'title';
+export const DEFAULT_SORT_VALUE = 'release_date';
+export const DEFAULT_SORT_ORDER = 'desc';

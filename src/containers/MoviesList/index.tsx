@@ -8,14 +8,12 @@ import { RootState } from '@/redux/rootReducer';
 import { defaultOptions } from '@/context/utils';
 import { useHandleMovie } from './utils';
 import { MoviesListProps } from '@/types';
+import filters from '../Controls/filtersList';
 
 const MoviesList: React.FC<MoviesListProps> = ({ list }) => {
   const {
-    handleSelectGenre,
-    filtersList,
     handleChangeOption,
     selectedOption,
-    handleShowMovie,
   } = useHandleMovie();
 
   const loading = useSelector((state: RootState) => {
@@ -30,10 +28,9 @@ const MoviesList: React.FC<MoviesListProps> = ({ list }) => {
     <Container style={{ flexGrow: 1 }}>
       <Controls
         options={defaultOptions}
-        filters={filtersList}
+        filters={filters}
         value={selectedOption}
         selectedOption={selectedOption}
-        onClick={handleSelectGenre}
         onChange={handleChangeOption}
       />
       {alert && (
@@ -42,7 +39,7 @@ const MoviesList: React.FC<MoviesListProps> = ({ list }) => {
       {loading ? (
         <Loader />
       ) : (
-        <MoviesContainer list={list} onClick={handleShowMovie} />
+        <MoviesContainer list={list} />
       )}
     </Container>
   );

@@ -1,35 +1,34 @@
-import { ITab } from '@/UI';
+export interface IFilterProps {
+  id: string;
+  value: string;
+  title: string;
+}
 
-const filters: ITab[] = [
+const filters: IFilterProps[] = [
   {
-    id: 'All',
-    value: 'All',
-    active: true,
-    disabled: false,
+    id: 'tab1',
+    value: '',
+    title: 'All',
   },
   {
-    id: 'Documentary',
+    id: 'tab2',
     value: 'Documentary',
-    active: false,
-    disabled: false,
+    title: 'Documentary',
   },
   {
-    id: 'Comedy',
+    id: 'tab3',
     value: 'Comedy',
-    active: false,
-    disabled: false,
+    title: 'Comedy',
   },
   {
-    id: 'Horror',
+    id: 'tab4',
     value: 'Horror',
-    active: false,
-    disabled: false,
+    title: 'Horror',
   },
   {
-    id: 'Crime',
+    id: 'tab5',
     value: 'Crime',
-    active: false,
-    disabled: false,
+    title: 'Crime',
   },
 ];
 

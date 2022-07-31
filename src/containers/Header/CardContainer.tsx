@@ -1,22 +1,33 @@
 import React from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { Search } from '@styled-icons/bootstrap';
-import { Button, Colors } from '@/UI';
-import { useMoviesContext } from '@/context';
-import { EXTERNAL_LINK, API } from '@/constants';
+import { Colors } from '@/UI';
+import { EXTERNAL_LINK } from '@/constants';
 import { addDefaultSrc } from '@/utils';
 import { IMovie } from '@/service';
 import { CenteredRow, InfoWrapper, RatingWrapper, InfoImg } from './styles';
 
 const CardContainer: React.FC<{ movie?: IMovie }> = ({ movie }) => {
-  const { resetCardInfo } = useMoviesContext();
+  const { query } = useRouter();
+  const { searchQuery } = query;
+
+  delete query.movie;
 
   return (
     <>
       <CenteredRow reduceSpacer>
         <EXTERNAL_LINK />
-        <Button onClick={resetCardInfo} icon>
-          <Search size={16} fill={Colors.Scarlet} />
-        </Button>
+        <Link
+          href={{
+            pathname: `${searchQuery ? searchQuery : '/'}`,
+            query: { ...query },
+          }}
+        >
+          <a>
+            <Search size={25} fill={Colors.Scarlet} />
+          </a>
+        </Link>
       </CenteredRow>
       <CenteredRow reduceSpacer justify>
         <InfoImg
