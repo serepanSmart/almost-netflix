@@ -24,6 +24,7 @@ export const Message = styled.p`
 export const Title = styled.div`
   margin-bottom: 5px;
   font-size: 16px;
+  font-weight: bold;
 `;
 
 export const Body = styled.div`

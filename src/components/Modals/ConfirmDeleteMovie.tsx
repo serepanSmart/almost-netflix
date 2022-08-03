@@ -1,13 +1,13 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Modal, Button, InnerGroup, ButtonGroup } from '@/UI';
 import { useModalContext } from '@/context';
 
 const ConfirmDeleteMovie: React.FC = () => {
   const { deleteMovieHandler, movie, onRequestClose } = useModalContext();
-  const handleCLose = useCallback(() => {
+  const handleCLose = (): void => {
     onRequestClose();
     deleteMovieHandler(movie.id);
-  }, [deleteMovieHandler, movie.id, onRequestClose]);
+  };
 
   return (
     <>
@@ -18,7 +18,7 @@ const ConfirmDeleteMovie: React.FC = () => {
       </Modal.Body>
       <Modal.Footer>
         <ButtonGroup>
-          <Button type="button" value="Confirm" onClick={handleCLose} />
+          <Button type='button' value='Confirm' onClick={handleCLose} />
         </ButtonGroup>
       </Modal.Footer>
     </>

@@ -5,17 +5,13 @@ import {
   HIDE_ALERT,
   SHOW_ALERT,
 } from './actionTypes';
-import { URL } from '@/constants';
+import { API } from '@/constants';
 import { AppAction, AppThunkAction } from './rootReducer';
 import { createAction } from '@reduxjs/toolkit';
 
 export const showLoader = (): AppAction<void, typeof SHOW_LOADER> => {
   return { type: SHOW_LOADER };
 };
-
-// export const hideLoader = (): AppAction<void, typeof HIDE_LOADER> => {
-//   return { type: HIDE_LOADER };
-// };
 
 // Alternative (maybe more readable):
 export const hideLoader = createAction(HIDE_LOADER);
@@ -51,15 +47,13 @@ export const fetchMovies = (query = ''): AppThunkAction => {
   return async (dispatch) => {
     try {
       dispatch(showLoader());
-      const response = await fetch(URL + query);
+      const response = await fetch(`${API}${query}`);
       const json = await response.json();
-      setTimeout(() => {
-        dispatch({
-          type: FETCH_MOVIES,
-          payload: json,
-        });
-        dispatch(hideLoader());
-      }, 500);
+      dispatch({
+        type: FETCH_MOVIES,
+        payload: json,
+      });
+      dispatch(hideLoader());
     } catch (e) {
       dispatch(showAlert('Server Error', 'Someting went wrong'));
       dispatch(hideLoader());

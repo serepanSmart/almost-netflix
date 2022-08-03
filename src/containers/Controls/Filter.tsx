@@ -1,24 +1,34 @@
 import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FiltersList } from './styles';
-import { TabButton, ITab } from '@/UI';
+import { IFilterProps } from './filtersList';
 
-interface IFiltersProps {
-  filters: ITab[];
-  onClick: (e: ITab) => void;
-}
+const Filters: React.FC<{ filters: IFilterProps[] }> = ({ filters }) => {
+  const router = useRouter();
+  const { query } = router;
 
-const Filters: React.FC<IFiltersProps> = ({ filters, onClick }) => {
   return (
     <FiltersList>
-      {filters.map((filter) => (
-        <TabButton
+      {filters.map((filter: IFilterProps) => (
+        <Link
           key={filter.id}
-          active={filter.active}
-          onClick={() => onClick(filter)}
-          value={filter.value}
+          href={{
+            pathname: `${query.searchQuery ? query.searchQuery : '/'}`,
+            query: { ...query, filter: filter.value },
+          }}
         >
-          {filter.value}
-        </TabButton>
+          <a
+            className={
+              query.filter === filter.value ||
+              (query.filter === undefined && filter.title === 'All')
+                ? 'active'
+                : ''
+            }
+          >
+            {filter.title}
+          </a>
+        </Link>
       ))}
     </FiltersList>
   );

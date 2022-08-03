@@ -1,6 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { Container } from 'styled-bootstrap-grid';
-import ErrorImg from '@/assets/eddie.gif';
 import { ChildrenProps } from '@/types';
 
 interface State {
@@ -31,7 +30,8 @@ class ErrorBoundary extends Component<ChildrenProps, State> {
             justifyContent: 'center'
           }}>
           <img
-            src={ErrorImg}
+            // eslint-disable-next-line max-len
+            src="https://thumbs.gfycat.com/ForthrightAromaticIcterinewarbler-size_restricted.gif"
             alt="error message"
           />
         </Container>

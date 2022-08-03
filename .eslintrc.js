@@ -17,6 +17,7 @@ module.exports = {
     '.eslintrc*',
     'srcUIDatePickerDatePickerStyles.ts',
     'jest_config/*.js',
+    'next.config.js',
   ],
   rules: {
     'no-console': 'warn',

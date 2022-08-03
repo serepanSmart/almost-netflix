@@ -8,11 +8,11 @@ import React, {
   SetStateAction,
 } from 'react';
 import { IMovie } from '@/service';
-import { URL } from '@/constants';
-import { showAlert, fetchMovies } from '@/redux/actions';
+import { API } from '@/constants';
+import { showAlert } from '@/redux/actions';
 import { useDispatch } from '@/redux/store';
 import { ChildrenProps } from '@/types';
-import { useMoviesContext } from './MoviesContext';
+import { useRouter } from 'next/router';
 
 interface IModalProps {
   onRequestClose?: () => void;
@@ -43,9 +43,9 @@ const ModalContextProvider: FunctionComponent<ChildrenProps> = ({
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [submitMethod, setSubmitMethod] = useState(undefined);
 
-  const { query } = useMoviesContext();
-
   const dispatch = useDispatch();
+
+  const router = useRouter();
 
   // JUST HANDLE OPEN-CLOSE MODAL
   const onRequestClose = useCallback(() => {
@@ -55,11 +55,11 @@ const ModalContextProvider: FunctionComponent<ChildrenProps> = ({
   // DELETE MOVIE, WITHOUT FORM SUBMIT HANDLER
   const deleteMovieHandler = useCallback(
     async (id: number | string) => {
-      return fetch(`${URL}/${id}`, {
+      return fetch(`${API}/${id}`, {
         method: submitMethod,
       })
         .then(() => {
-          dispatch(fetchMovies(query)); // WITH THIS SAVED PARAM WE CAN SEE THE SAME SCREEN AFTER NEW FETCHING
+          router.push(router.asPath); // WITH THIS SAVED PARAM WE CAN SEE THE SAME SCREEN AFTER NEW FETCHING
         })
         .then(() => {
           setTimeout(() => {
@@ -76,7 +76,7 @@ const ModalContextProvider: FunctionComponent<ChildrenProps> = ({
           dispatch(showAlert('Oops', 'Something went wrong'));
         });
     },
-    [dispatch, query, submitMethod],
+    [dispatch, router, submitMethod],
   );
 
   // OPEN MODAL WITH PARAMS
@@ -119,13 +119,13 @@ const ModalContextProvider: FunctionComponent<ChildrenProps> = ({
   // HANDLE FORM SUBMITTING
   const onSubmit = useCallback(
     async (data: IMovie) => {
-      const res = await fetch(URL, {
+      const res = await fetch(API, {
         method: submitMethod,
         body: JSON.stringify(data),
         headers: headers,
       });
       if (res.ok) {
-        dispatch(fetchMovies(query)); // WITH THIS SAVED PARAM WE CAN SEE THE SAME SCREEN AFTER NEW FETCHING
+        router.push(router.asPath); // WITH THIS SAVED PARAM WE CAN SEE THE SAME SCREEN AFTER NEW FETCHING
         onRequestClose();
         setTimeout(() => {
           dispatch(showAlert('Congrats', 'Movie data is updated', 'success'));
@@ -134,7 +134,7 @@ const ModalContextProvider: FunctionComponent<ChildrenProps> = ({
         dispatch(showAlert('Error', 'Ooops, something went wrong'));
       }
     },
-    [dispatch, onRequestClose, query, submitMethod],
+    [dispatch, onRequestClose, router, submitMethod],
   );
 
   const value = React.useMemo<IModalProps>(

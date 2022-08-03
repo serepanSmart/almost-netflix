@@ -6,6 +6,7 @@ const FooterContainer = styled.footer`
   align-items: center;
   justify-content: center;
   min-height: 70px;
+  margin-top: auto;
   background: ${Colors.Grey};
 `;
 
