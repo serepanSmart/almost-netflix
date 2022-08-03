@@ -18,9 +18,9 @@ const MoviesContainer: React.FC<{
 
   return (
     <>
-      <h3>
+      <h2>
         <b>{list.length}</b> movies found
-      </h3>
+      </h2>
       <CenteredRow>
         {list.map((card) => (
           <MovieCard key={card.id} card={card} />

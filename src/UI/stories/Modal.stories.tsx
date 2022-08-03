@@ -13,7 +13,6 @@ import {
   TextArea,
   ButtonGroup,
 } from '..';
-import { Message } from '../Alert/styles';
 import moment from 'moment';
 import Wrapper from './Wrapper';
 
@@ -59,7 +58,6 @@ export const ModalStory: React.FC = () => {
                 Title
               </Label>
               <Input required />
-              <Message name="title" />
             </InnerCol>
             <InnerCol direction="column">
               <Label htmlFor="release_date" type="col-checkbox">
@@ -80,7 +78,7 @@ export const ModalStory: React.FC = () => {
               <Label type="col-checkbox" htmlFor="poster_path" required>
                 Movie Url
               </Label>
-              <Input placeholder="https://" fullWidth />
+              <Input placeholder="https://" />
             </InnerCol>
           </InnerGroup>
           <InnerCol direction="column">
@@ -88,7 +86,6 @@ export const ModalStory: React.FC = () => {
               OVERVIEW
             </Label>
             <TextArea />
-            <Message name="overview" />
           </InnerCol>
         </Modal.Body>
         <Modal.Footer>

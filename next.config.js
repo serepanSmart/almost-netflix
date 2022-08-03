@@ -1,4 +1,8 @@
-module.exports = {
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+module.exports = withBundleAnalyzer({
   basePath: '/search',
   async redirects() {
     return [
@@ -15,8 +19,9 @@ module.exports = {
       'image.tmdb.org',
       'sd.keepcalms.com',
       'mypostercollection.com',
+      'thumbs.gfycat.com',
       'localhost',
     ],
     loader: 'default',
   },
-};
+});

@@ -32,6 +32,7 @@ const Button: React.FC<PropsWithChildren<IButtonProps>> = ({
       isLoading={isLoading}
       value={value}
       data-testid={dataTestId}
+      aria-label={icon && 'button'}
     >
       {isLoading && <BarsLoader />}
       {!icon && !isLoading && value}

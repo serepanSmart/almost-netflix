@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import ModalMovie from '@/components/Modals';
 import ContextProvider from '@/context';
 import GlobalStyle from '@/GlobalStyle';
@@ -24,10 +23,13 @@ const App: React.FC<{ Component: React.FC; pageProps: object }> = ({
               name='viewport'
               content='width=device-width, initial-scale=1.0'
             />
+            <meta
+              name='description'
+              content='The greatest competitior for Netflix'
+            />
             <link rel='icon' href={`${favicon.src}`} type='image/ico' />
             <title>React Movie</title>
           </Head>
-          <GlobalStyle />
           <Component {...pageProps} />
         </Layout>
       </ContextProvider>

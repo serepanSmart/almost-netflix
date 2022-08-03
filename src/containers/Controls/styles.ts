@@ -24,7 +24,7 @@ export const FiltersList = styled.div`
     font-size: 16px;
     color: ${Colors.White};
     text-transform: uppercase;
-    font-weight: bold;
+    font-weight: 600;
     z-index: 2;
     border-bottom: 2px solid transparent;
     cursor: pointer;

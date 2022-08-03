@@ -16,7 +16,6 @@ const defaultOptions: Option[] = [
 ];
 
 const MovieCard: React.FC<Partial<IMovie>> = ({ card }) => {
-
   const { query } = useRouter();
   const { searchQuery } = query;
   const [src, setSrc] = useState(card.poster_path ?? imgPlaceholder);
@@ -65,6 +64,7 @@ const MovieCard: React.FC<Partial<IMovie>> = ({ card }) => {
             height='100%'
             layout='responsive'
             objectFit='cover'
+            objectPosition='0 0'
             placeholder='blur'
             blurDataURL={imgPlaceholder}
           />
