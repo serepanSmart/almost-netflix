@@ -6,8 +6,7 @@ export interface ITab {
   value: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
-  title: string;
-  id: string;
+  id?: string;
 }
 
 const TabButton: React.FC<PropsWithChildren<ITab>> = ({
@@ -15,7 +14,7 @@ const TabButton: React.FC<PropsWithChildren<ITab>> = ({
   onClick,
   disabled,
   value,
-  title
+  id = value,
 }) => {
   const handleClick = useCallback(
     (evt: React.MouseEvent<HTMLButtonElement>): void => {
@@ -33,9 +32,9 @@ const TabButton: React.FC<PropsWithChildren<ITab>> = ({
       onClick={handleClick}
       value={value}
       type="button"
-      id={title} // id here is value by default, but it can be changed
+      id={id} // id here is value by default, but it can be changed
     >
-      {title}
+      {value}
     </FilterItem>
   );
 };

@@ -8,7 +8,7 @@ export const FilterItem = styled.button<{ active?: boolean }>`
   background: transparent;
   font-size: 16px;
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: 600;
   z-index: 2;
   color: ${({ active }) => active
     ? Colors.Scarlet

@@ -2,7 +2,6 @@ import { Colors } from '@/UI';
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-
   html {
     font-size: 16px;
     scroll-behavior: smooth;
@@ -34,9 +33,13 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h1, h2, h3 {
-    font-weight: 400;
+    font-weight: 500;
   }
   
+  h2 {
+    font-size: 20px;
+  }
+
   h3 {
     font-size: 18px;
   }
