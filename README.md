@@ -1,2 +1,2 @@
-A single page application (SPA), written via ReactJS/NextJS which will allow users to search, view, add and delete movies from the Movies DB database.
+Learning/training - a single page application (SPA), written via ReactJS/NextJS which will allow users to search, view, add and delete movies from the Movies DB database.
 Contains Storybook, unit tests (React Testing Library) 
